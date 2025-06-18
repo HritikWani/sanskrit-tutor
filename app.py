@@ -8,6 +8,11 @@ app.config['UPLOAD_FOLDER'] = 'static/uploads'
 
 # MongoDB Connection
 MONGO_URI = os.environ.get("MONGO_URI")
+
+if not MONGO_URI:
+    print("Warning: MONGO_URI not set, using localhost for MongoDB.")
+    MONGO_URI = "mongodb://localhost:27017"
+
 client = MongoClient(MONGO_URI)
 db = client['sanskrit_tuition']
 students_col = db['students']
