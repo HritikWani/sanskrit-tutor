@@ -14,7 +14,7 @@ if not MONGO_URI:
     MONGO_URI = "mongodb://localhost:27017"
 
 client = MongoClient(MONGO_URI)
-db = client['sanskrit_tuition']
+db = client['sanskrit_tuitor']
 students_col = db['students']
 tests_col = db['tests']
 schedules_col = db['schedules']
