@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head><title>Class Schedules</title></head>
+<body>
+  <h2>All Schedules</h2>
+  <table border="1">
+    <tr><th>Class</th><th>School</th><th>Day</th><th>Time</th></tr>
+    {% for sch in schedules %}
+      <tr>
+        <td>{{ sch.class }}</td>
+        <td>{{ sch.school }}</td>
+        <td>{{ sch.day }}</td>
+        <td>{{ sch.time }}</td>
+        <td>
+            <a href="/admin/delete-schedule/{{ s._id }}" onclick="return confirm('Are you sure?')">Delete</a>
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+</body>
+</html>

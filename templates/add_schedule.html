@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Add Schedule</title>
+</head>
+<body>
+  <h2>Add Class Schedule</h2>
+  <form method="POST" action="/admin/add-schedule">
+    Class: <input type="number" name="class" required><br>
+    School: <input type="text" name="school" required><br>
+    Day: <input type="text" name="day" placeholder="e.g. Monday" required><br>
+    Time: <input type="text" name="time" placeholder="e.g. 4:00 PM - 5:00 PM" required><br>
+    <input type="submit" value="Add Schedule">
+  </form>
+</body>
+</html>
