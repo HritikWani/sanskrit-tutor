@@ -16,7 +16,7 @@ schedules_col = db['schedules']
 
 @app.route('/')
 def home():
-    return render_template('index.html')
+    return redirect('/admin')
 
 @app.route('/admin')
 def admin_page():
@@ -86,3 +86,5 @@ def delete_schedule(id):
     schedules_col.delete_one({"_id": ObjectId(id)})
     return redirect('/admin/schedules')
 
+if __name__ == '__main__':
+    app.run(debug=True)
