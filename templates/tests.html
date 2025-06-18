@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head><title>All Tests</title></head>
+<head><title>All Tests</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
-  <h2>All Test Uploads</h2>
+    <div class="container">
+<h2>All Test Uploads</h2>
   <table border="1">
     <tr><th>Student ID</th><th>Subject</th><th>Date</th><th>Marks</th><th>PDF</th></tr>
     {% for t in tests %}
@@ -19,5 +22,7 @@
       </tr>
     {% endfor %}
   </table>
+    </div>
+  
 </body>
 </html>

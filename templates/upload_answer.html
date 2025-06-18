@@ -2,9 +2,12 @@
 <html>
 <head>
   <title>Upload Answer Sheet</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
-  <h2>Upload Student Answer PDF</h2>
+    <div class="container">
+<h2>Upload Student Answer PDF</h2>
   <form action="/admin/upload-answer" method="POST" enctype="multipart/form-data">
     <label>Student ID:</label><br>
     <input type="text" name="student_id" required><br><br>
@@ -14,5 +17,7 @@
 
     <button type="submit">Upload</button>
   </form>
+    </div>
+  
 </body>
 </html>

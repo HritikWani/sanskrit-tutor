@@ -2,9 +2,12 @@
 <html>
 <head>
   <title>Admin Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
-  <h1>Welcome, Admin</h1>
+  <div class="container">
+    <h1>Welcome, Admin</h1>
 
   <ul>
     <li><a href="/admin/students">View Students</a></li>
@@ -25,5 +28,6 @@
     <p style="color: gray;">📌 Upload disabled — please create at least one test.</p>
   {% endif %}
 
+  </div>
 </body>
 </html>

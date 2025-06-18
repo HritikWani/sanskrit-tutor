@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head><title>Class Schedules</title></head>
+<head><title>Class Schedules</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
-  <h2>All Schedules</h2>
+  <div class="container">
+    <h2>All Schedules</h2>
   <table border="1">
     <tr><th>Class</th><th>School</th><th>Day</th><th>Time</th></tr>
     {% for sch in schedules %}
@@ -17,5 +20,6 @@
       </tr>
     {% endfor %}
   </table>
+  </div>
 </body>
 </html>

@@ -1,8 +1,11 @@
 <!DOCTYPE html>
 <html>
-<head><title>All Students</title></head>
+<head><title>All Students</title>
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
 <body>
-  <h2>All Students</h2>
+  <div class="container">
+    <h2>All Students</h2>
   <table border="1">
     <tr><th>ID</th><th>Name</th><th>Class</th><th>School</th><th>Contact</th></tr>
     {% for s in students %}
@@ -19,6 +22,7 @@
   </tr>
     {% endfor %}
   </table>
+  </div>
 </body>
 </html>
 
