@@ -4,14 +4,26 @@
   <title>Admin Dashboard</title>
 </head>
 <body>
-  <h1>Admin Dashboard</h1>
+  <h1>Welcome, Admin</h1>
+
   <ul>
     <li><a href="/admin/students">View Students</a></li>
-    <li><a href="/admin/tests">View Tests</a></li>
     <li><a href="/admin/schedules">View Schedules</a></li>
-    <li><a href="/admin/add-student">➕ Add New Student</a></li>
-    <li><a href="/admin/add-schedule">➕ Add New Schedule</a></li>
-
+    <li><a href="/admin/tests">View Tests</a></li>
+    <li><a href="/admin/add-student">Add Student</a></li>
+    <li><a href="/admin/add-schedule">Add Schedule</a></li>
   </ul>
+
+  <hr>
+
+  {% if test_exists %}
+    <h3>Upload Answer Sheets</h3>
+    <a href="/admin/upload-answer">
+      <button>Upload Answer PDF</button>
+    </a>
+  {% else %}
+    <p style="color: gray;">📌 Upload disabled — please create at least one test.</p>
+  {% endif %}
+
 </body>
 </html>

@@ -25,7 +25,9 @@ def home():
 
 @app.route('/admin')
 def admin_page():
-    return render_template('admin.html')
+    test_exists = tests_col.count_documents({}) > 0
+    return render_template('admin.html', test_exists=test_exists)
+
 
 @app.route('/admin/students')
 def view_students():
