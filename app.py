@@ -91,5 +91,37 @@ def delete_schedule(id):
     schedules_col.delete_one({"_id": ObjectId(id)})
     return redirect('/admin/schedules')
 
+
+from flask import request, redirect, flash
+import datetime
+
+@app.route('/admin/upload-answer', methods=['GET', 'POST'])
+def upload_answer():
+    if request.method == 'POST':
+        student_id = request.form['student_id']
+        file = request.files['pdf_file']
+
+        if file and file.filename.endswith('.pdf'):
+            filename = secure_filename(f"{student_id}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.pdf")
+            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
+            file.save(filepath)
+
+            # You can store PDF path and student_id in MongoDB if needed:
+            db['answers'].insert_one({
+                "student_id": student_id,
+                "filename": filename,
+                "upload_time": datetime.datetime.utcnow()
+            })
+
+            flash("PDF uploaded successfully.")
+            return redirect('/admin/upload-answer')
+        else:
+            flash("Invalid file. Only PDF allowed.")
+            return redirect('/admin/upload-answer')
+
+    return render_template('upload_answer.html')
+
+
+
 if __name__ == '__main__':
     app.run(debug=True)
