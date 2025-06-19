@@ -187,27 +187,41 @@ def delete_schedule(id):
 def add_test():
     if session.get('role') != 'admin':
         return redirect('/login')
-    if request.method == 'POST':
-        file = request.files.get('question_paper')
-        filename = None
 
+    if request.method == 'POST':
+        try:
+            class_num = int(request.form['class'])
+            school = request.form['school']
+            test_date = request.form['date']
+            description = request.form.get('description', '')
+            file = request.files.get('question_paper')
+        except Exception:
+            flash("Invalid or missing form fields.")
+            return redirect('/admin/add-test')
+
+        filename = None
         if file and allowed_file(file.filename):
             filename = secure_filename(f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}_{file.filename}")
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
+        else:
+            flash("Invalid file type. Upload PDF or image only.")
+            return redirect('/admin/add-test')
 
         test_data = {
-            "subject": request.form['subject'],
-            "test_date": request.form['test_date'],
-            "class": int(request.form['class']),
-            "question_paper": filename,  # saved name of the uploaded file
-            "type": "assigned"  # this marks it as created by tutor
+            "class": class_num,
+            "school": school,
+            "test_date": test_date,
+            "description": description,
+            "question_paper": filename,
+            "type": "assigned"
         }
 
         tests_col.insert_one(test_data)
+        flash("Test added successfully.")
         return redirect('/admin/tests')
 
     return render_template('admin/add_test.html')
+
 
 
 @app.route('/admin/answers/<student_id>')
