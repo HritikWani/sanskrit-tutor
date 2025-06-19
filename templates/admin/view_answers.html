@@ -6,6 +6,14 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="page-header">
+  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
+  <div class="title">Gajanan Classes</div>
+</div>
+
+<div class="main-content">
+  
+
   <div class="container">
     <h2>Answers Submitted by {{ student.name }} (ID: {{ student.student_id }})</h2>
 
@@ -29,6 +37,7 @@
   <button>⬅ Back</button>
 </a>
 
+</div>
   </div>
 </body>
 </html>

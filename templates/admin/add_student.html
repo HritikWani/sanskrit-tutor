@@ -6,6 +6,14 @@
 
 </head>
 <body>
+  <div class="page-header">
+  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
+  <div class="title">Gajanan Classes</div>
+</div>
+
+<div class="main-content">
+ 
+
   <div class="container">
     <h2>Add New Student</h2>
   <form method="POST" action="/admin/add-student">
@@ -21,7 +29,7 @@
   <button>⬅ Back</button>
 </a>
 
-
+</div>
   </div>
 </body>
 </html>

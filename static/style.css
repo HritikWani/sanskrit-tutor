@@ -1,10 +1,47 @@
 body {
   font-family: Arial, sans-serif;
-  background-color: #f4f6f8;
   margin: 0;
-  padding: 20px;
+  padding: 0;
+  background: linear-gradient(to bottom right, #fff3e0, #ff9800); /* saffron gradient */
+  min-height: 100vh;
 }
 
+/* Header with logo and title */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  background-color: rgba(255, 255, 255, 0.95);
+  padding: 15px 30px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+.page-header img {
+  height: 50px;
+  margin-right: 15px;
+}
+
+.page-header .title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #b35300;
+}
+
+/* Main content pushed below fixed header */
+.main-content {
+  padding: 100px 20px 30px;
+  max-width: 960px;
+  margin: auto;
+  background-color: rgba(255, 255, 255, 0.96);
+  border-radius: 8px;
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Existing styles (tweaked for consistency) */
 h1, h2, h3 {
   color: #333;
 }
@@ -37,7 +74,12 @@ ul li {
   margin: 8px 0;
 }
 
-form input[type="text"], form input[type="file"], form select {
+form input[type="text"],
+form input[type="file"],
+form input[type="number"],
+form input[type="date"],
+form select,
+form textarea {
   padding: 8px;
   width: 300px;
   margin: 5px 0 15px 0;
@@ -55,7 +97,7 @@ form button {
   background: white;
   padding: 30px;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .flashes {

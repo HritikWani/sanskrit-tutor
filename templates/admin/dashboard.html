@@ -5,6 +5,14 @@
   <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="page-header">
+  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
+  <div class="title">Gajanan Classes</div>
+</div>
+
+<div class="main-content">
+
+
   <div class="container">
     <h1>Welcome, Admin</h1>
 
@@ -21,6 +29,7 @@
     <br>
 <a href="/logout"><button>Logout</button></a>
 
+</div>
   </div>
 </body>
 </html>
