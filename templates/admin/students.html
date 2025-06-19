@@ -15,10 +15,14 @@
     <td>{{ s.class }}</td>
     <td>{{ s.school }}</td>
     <td>{{ s.contact }}</td>
+    <td><a href="{{ url_for('admin_view_answers', student_id=student.student_id) }}">
+    View Answers
+  </a></td>
+    <td><a href="/admin/view-marks/{{ s.student_id }}">View Marks</a></td>
     <td>
       <a href="/admin/delete-student/{{ s._id }}" onclick="return confirm('Are you sure?')">Delete</a>
-
     </td>
+    
   </tr>
     {% endfor %}
   </table>

@@ -1,0 +1,32 @@
+<!-- templates/admin/dashboard.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, Admin</h1>
+
+    <ul>
+      <li><a href="/admin/students">View Students</a></li>
+      <li><a href="/admin/schedules">View Schedules</a></li>
+      <li><a href="/admin/tests">View Tests</a></li>
+      <li><a href="/admin/add-student">Add Student</a></li>
+      <li><a href="/admin/add-schedule">Add Schedule</a></li>
+    </ul>
+
+    <hr>
+
+    {% if test_exists %}
+      <h3>Upload Answer Sheets</h3>
+      <a href="/admin/upload-answer">
+        <button>Upload Answer PDF</button>
+      </a>
+    {% else %}
+      <p style="color: gray;">📌 Upload disabled — please create at least one test.</p>
+    {% endif %}
+  </div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Student Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h1>Welcome, {{ session['username'] }}</h1>
+
+    <ul>
+      <li><a href="/student/schedules">View Class Schedule</a></li>
+      <li><a href="/student/tests">View Assigned Tests</a></li>
+      <li><a href="/student/view-marks">View Your Marks</a></li>
+    </ul>
+
+    <hr>
+
+    {% if test_exists %}
+      <h3>Upload Your Answer Sheet</h3>
+      <a href="/student/upload-answer">
+        <button>Upload Answer PDF</button>
+      </a>
+    {% else %}
+      <p style="color: gray;">📌 Upload disabled — no tests assigned yet.</p>
+    {% endif %}
+
+    <hr>
+    <a href="/logout"><button>Logout</button></a>
+  </div>
+</body>
+</html>

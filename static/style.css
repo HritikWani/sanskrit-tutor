@@ -57,3 +57,16 @@ form button {
   border-radius: 8px;
   box-shadow: 0 2px 6px rgba(0,0,0,0.1);
 }
+
+.flashes {
+  list-style: none;
+  padding: 10px;
+  background-color: #ffe5e5;
+  border: 1px solid #ff9999;
+  color: #cc0000;
+  margin: 10px 0;
+  width: fit-content;
+}
+.flashes li {
+  margin: 5px 0;
+}

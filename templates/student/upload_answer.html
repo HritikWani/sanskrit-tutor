@@ -1,0 +1,31 @@
+<!-- templates/student/upload_answer.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Upload Answer</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <h2>Upload Answer PDF</h2>
+
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form method="POST" enctype="multipart/form-data">
+      <label for="pdf_file">Select PDF:</label><br>
+      <input type="file" name="pdf_file" accept=".pdf" required><br><br>
+      <button type="submit">Upload</button>
+    </form>
+
+    <br><a href="/student/dashboard"><button>Back to Dashboard</button></a>
+  </div>
+</body>
+</html>

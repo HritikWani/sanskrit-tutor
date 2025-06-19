@@ -1,0 +1,45 @@
+<!-- templates/login.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <script>
+    function validateForm() {
+      const username = document.forms["loginForm"]["username"].value.trim();
+      const password = document.forms["loginForm"]["password"].value.trim();
+      if (username === "" || password === "") {
+        alert("Both fields are required.");
+        return false;
+      }
+      return true;
+    }
+  </script>
+</head>
+<body>
+  <div class="container">
+    <h2>Login</h2>
+
+    <!-- Show flash messages -->
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
+
+    <form name="loginForm" method="POST" onsubmit="return validateForm()">
+      <label>Username:</label><br>
+      <input type="text" name="username"><br>
+
+      <label>Password:</label><br>
+      <input type="password" name="password"><br><br>
+
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</body>
+</html>
