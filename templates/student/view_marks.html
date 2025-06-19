@@ -5,6 +5,7 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <div class="container">
   <h2>Marks for {{ student.name }}</h2>
   <p>Class {{ student.class }} - {{ student.school }}</p>
 
@@ -35,9 +36,11 @@
     <p>No marks available.</p>
   {% endif %}
 
+  
   <br>
-  <a href="/student/dashboard">Back to Dashboard</a>
-  <br>
-  <a href="/logout">Logout</a>
+<a href="javascript:history.back()">
+  <button>⬅ Back</button>
+</a>
+</div>
 </body>
 </html>
