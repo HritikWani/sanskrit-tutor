@@ -59,8 +59,29 @@ def logout():
     session.clear()
     return redirect('/login')
 
+from pymongo import MongoClient
+import os
 
+@app.route('/')
+def home():
+    MONGO_URI = os.environ.get("MONGO_URI")
+    client = MongoClient(MONGO_URI)
+    db = client['sanskrit_tutor']
 
+    admin_user = {
+        "username": "admin",
+        "password": "admin123",
+        "role": "admin"
+    }
+
+    # Check if admin already exists
+    if not db.users.find_one({"username": "admin"}):
+        db.users.insert_one(admin_user)
+        print("Admin user created.")
+    else:
+        print("Admin user already exists.")
+
+"""
 @app.route('/')
 def home():
     if 'role' in session:
@@ -69,6 +90,7 @@ def home():
         elif session['role'] == 'student':
             return redirect('/student/dashboard')
     return redirect('/login')
+"""
 
 @app.route('/admin/dashboard')
 def admin_dashboard():
