@@ -21,7 +21,6 @@
         <th>Date</th>
         <th>Class</th>
         <th>Question Paper</th>
-        <th>Delete</th>
       </tr>
 
       {% for t in tests %}
@@ -35,9 +34,6 @@
           {% else %}
             Not Uploaded
           {% endif %}
-        </td>
-        <td>
-          <a href="/admin/delete-test/{{ t._id }}" onclick="return confirm('Are you sure you want to delete this test?')">Delete</a>
         </td>
       </tr>
       {% endfor %}
