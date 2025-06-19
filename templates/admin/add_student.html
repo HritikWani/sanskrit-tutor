@@ -17,13 +17,13 @@
   <div class="container">
     <h2>Add New Student</h2>
   <form method="POST" action="/admin/add-student">
-    Student ID: <input type="text" name="student_id"><br>
-    Name: <input type="text" name="name"><br>
-    Class: <input type="number" name="class"><br>
-    School: <input type="text" name="school"><br>
-    Contact: <input type="text" name="contact"><br>
-    <input type="submit" value="Add Student">
-  </form>
+  Name: <input type="text" name="name" required><br>
+  Class: <input type="number" name="class" required><br>
+  School: <input type="text" name="school" required><br>
+  Contact: <input type="text" name="contact" required><br>
+  <input type="submit" value="Add Student">
+</form>
+
   <br>
 <a href="javascript:history.back()">
   <button>⬅ Back</button>

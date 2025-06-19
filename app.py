@@ -127,22 +127,53 @@ def view_marks(student_id):
 def add_student():
     if session.get('role') != 'admin':
         return redirect('/login')
+
     if request.method == 'POST':
+        name = request.form['name'].strip()
+        student_class = int(request.form['class'])
+        school = request.form['school']
+        contact = request.form['contact']
+
+        # STEP 1: Get the next student_id (auto-increment logic)
+        last_student = students_col.find_one(sort=[("student_id", -1)])
+        next_id = int(last_student['student_id']) + 1 if last_student else 1
+        student_id = str(next_id)
+
+        # STEP 2: Generate a unique username based on name
+        base_username = name.lower().replace(" ", "")
+        username = base_username
+        count = 1
+        while users_col.find_one({"username": username}):
+            username = f"{base_username}{count}"
+            count += 1
+
+        # STEP 3: Create a password (not hashed for now)
+        password = f"{base_username}{student_id}"
+
+        # STEP 4: Insert student into students_col
         student_data = {
-            "student_id": request.form['student_id'],
-            "name": request.form['name'],
-            "class": int(request.form['class']),
-            "school": request.form['school'],
-            "contact": request.form['contact']
+            "student_id": student_id,
+            "name": name,
+            "class": student_class,
+            "school": school,
+            "contact": contact
         }
-        existing = students_col.find_one({"student_id": request.form['student_id']})
-        if existing:
-            flash("Student ID already exists.")
-            return redirect('/admin/add-student')
         students_col.insert_one(student_data)
-        return redirect('/admin/students')  # redirect after adding
+
+        # STEP 5: Add login credentials to users_col
+        user_data = {
+            "username": username,
+            "password": password,
+            "role": "student",
+            "student_id": student_id
+        }
+        users_col.insert_one(user_data)
+
+        flash(f"Student added. Username: {username}, Password: {password}")
+        return redirect('/admin/students')
 
     return render_template('admin/add_student.html')
+
 
 @app.route('/admin/add-schedule', methods=['GET', 'POST'])
 def add_schedule():
