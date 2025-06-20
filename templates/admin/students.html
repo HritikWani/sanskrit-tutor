@@ -1,46 +1,41 @@
-<!DOCTYPE html>
-<html>
-<head><title>All Students</title>
-<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <div class="page-header">
-  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
-  <div class="title">Gajanan Classes</div>
-</div>
+{% extends "base.html" %}
 
-<div class="main-content">
- 
+{% block title %}All Students{% endblock %}
 
+{% block content %}
   <div class="container">
     <h2>All Students</h2>
-  <table border="1">
-    <tr><th>ID</th><th>Name</th><th>Class</th><th>School</th><th>Contact</th></tr>
-    {% for s in students %}
-  <tr>
-    <td>{{ s.student_id }}</td>
-    <td>{{ s.name }}</td>
-    <td>{{ s.class }}</td>
-    <td>{{ s.school }}</td>
-    <td>{{ s.contact }}</td>
-    <td><a href="{{ url_for('admin_view_answers', student_id=s.student_id) }}">
-    View Answers
-  </a></td>
-    <td><a href="/admin/view-marks/{{ s.student_id }}">View Marks</a></td>
-    <td>
-      <a href="/admin/delete-student/{{ s._id }}" onclick="return confirm('Are you sure?')">Delete</a>
-    </td>
 
-  </tr>
-    {% endfor %}
-  </table>
-  <br>
-<a href="javascript:history.back()">
-  <button>⬅ Back</button>
-</a>
+    <table border="1">
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Class</th>
+        <th>School</th>
+        <th>Contact</th>
+        <th>Answers</th>
+        <th>Marks</th>
+        <th>Action</th>
+      </tr>
+      {% for s in students %}
+        <tr>
+          <td>{{ s.student_id }}</td>
+          <td>{{ s.name }}</td>
+          <td>{{ s.class }}</td>
+          <td>{{ s.school }}</td>
+          <td>{{ s.contact }}</td>
+          <td><a href="{{ url_for('admin_view_answers', student_id=s.student_id) }}">View Answers</a></td>
+          <td><a href="/admin/view-marks/{{ s.student_id }}">View Marks</a></td>
+          <td>
+            <a href="/admin/delete-student/{{ s._id }}" onclick="return confirm('Are you sure?')">Delete</a>
+          </td>
+        </tr>
+      {% endfor %}
+    </table>
 
-</div>
+    <br>
+    <a href="javascript:history.back()">
+      <button>⬅ Back</button>
+    </a>
   </div>
-</body>
-</html>
-
+{% endblock %}

@@ -1,0 +1,36 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <title>{% block title %}Gajanan Classes{% endblock %}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <div class="page-header">
+    <div class="left-section">
+      <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
+      <div class="title">Gajanan Classes</div>
+    </div>
+
+    {% if session.get('name') %}
+      <div class="right-section">
+        Welcome, {{ session['name'] }}
+      </div>
+    {% endif %}
+  </div>
+
+  <div class="main-content">
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                <ul class="flashes">
+                    {% for message in messages %}
+                        <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        {% endwith %}
+
+        {% block content %}{% endblock %}
+    </div>
+</body>
+</html>

@@ -42,11 +42,22 @@ def login():
         if u and u['password'] == password:
             session['username'] = u['username']
             session['role'] = u['role']
+
             if u['role'] == 'admin':
+                session['name'] = "Admin"
                 return redirect('/admin/dashboard')
+
             else:
-                session['student_id'] = u['student_id']
-                return redirect('/student/dashboard')
+                student = students_col.find_one({"student_id": u['student_id']})
+                if student:
+                    session['student_id'] = student['student_id']
+                    session['name'] = student['name']
+                    session['class'] = student['class']
+                    session['school'] = student['school']
+                    return redirect('/student/dashboard')
+                else:
+                    flash("Student record not found.")
+                    return redirect('/login')
         
         flash("Invalid username or password.")
         return redirect('/login')
@@ -59,8 +70,6 @@ def logout():
     session.clear()
     return redirect('/login')
 
-from pymongo import MongoClient
-import os
 
 
 @app.route('/')
@@ -84,8 +93,6 @@ def admin_dashboard():
 def student_dashboard():
     if session.get('role') != 'student':
         return redirect('/login')
-
-    student_id = session.get('student_id')
     test_exists = tests_col.count_documents({"type": "assigned"}) > 0
 
     return render_template('student/dashboard.html', test_exists=test_exists)
@@ -223,6 +230,7 @@ def add_test():
         try:
             class_num = int(request.form['class'])
             school = request.form['school']
+            subject = request.form.get('subject') 
             test_date = request.form['date']
             description = request.form.get('description', '')
             file = request.files.get('question_paper')
@@ -241,11 +249,13 @@ def add_test():
         test_data = {
             "class": class_num,
             "school": school,
+            "subject": subject,  # ✅ Add subject to DB
             "test_date": test_date,
             "description": description,
             "question_paper": filename,
             "type": "assigned"
         }
+
 
         tests_col.insert_one(test_data)
         flash("Test added successfully.")
@@ -314,13 +324,20 @@ def student_view_schedules():
     schedules = list(schedules_col.find())
     return render_template('student/schedules.html', schedules=schedules)
 
+
 @app.route('/student/tests')
 def student_view_tests():
     if session.get('role') != 'student':
         return redirect('/login')
-    student = students_col.find_one({"student_id": session['student_id']})
-    tests = list(tests_col.find({"class": student['class']}))
+
+    tests = list(tests_col.find({
+        "class": session.get('class'),
+        "school": session.get('school'),
+        "type": "assigned"
+    }))
     return render_template('student/tests.html', tests=tests)
+
+
 
 
 

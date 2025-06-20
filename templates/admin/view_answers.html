@@ -1,19 +1,8 @@
-<!-- templates/admin/view_answers.html -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Submitted Answers</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="page-header">
-  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
-  <div class="title">Gajanan Classes</div>
-</div>
+{% extends "base.html" %}
 
-<div class="main-content">
-  
+{% block title %}Submitted Answers{% endblock %}
 
+{% block content %}
   <div class="container">
     <h2>Answers Submitted by {{ student.name }} (ID: {{ student.student_id }})</h2>
 
@@ -24,7 +13,7 @@
             <a href="{{ url_for('static', filename='uploads/' ~ ans.filename) }}" target="_blank">
               {{ ans.filename }}
             </a> 
-            - Uploaded at {{ ans.upload_time.strftime('%Y-%m-%d %H:%M:%S') }}
+            – Uploaded at {{ ans.upload_time.strftime('%Y-%m-%d %H:%M:%S') }}
           </li>
         {% endfor %}
       </ul>
@@ -33,11 +22,8 @@
     {% endif %}
 
     <br>
-<a href="javascript:history.back()">
-  <button>⬅ Back</button>
-</a>
-
-</div>
+    <a href="javascript:history.back()">
+      <button>⬅ Back</button>
+    </a>
   </div>
-</body>
-</html>
+{% endblock %}

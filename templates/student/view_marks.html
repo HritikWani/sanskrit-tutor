@@ -1,56 +1,42 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>View Marks</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="page-header">
-  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
-  <div class="title">Gajanan Classes</div>
-</div>
+{% extends "base.html" %}
 
-<div class="main-content">
-  
+{% block title %}View Marks{% endblock %}
 
-    <div class="container">
-  <h2>Marks for {{ student.name }}</h2>
-  <p>Class {{ student.class }} - {{ student.school }}</p>
+{% block content %}
+  <div class="container">
+    <h2>Marks for {{ student.name }}</h2>
+    <p>Class {{ student.class }} – {{ student.school }}</p>
 
-  {% if marks %}
-    <table border="1">
-      <thead>
-        <tr>
-          <th>Test Date</th>
-          <th>Subject</th>
-          <th>Description</th>
-          <th>Marks Obtained</th>
-          <th>Max Marks</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for m in marks %}
+    {% if marks %}
+      <table border="1">
+        <thead>
           <tr>
-            <td>{{ m.test_date }}</td>
-            <td>{{ m.subject }}</td>
-            <td>{{ m.description or 'N/A' }}</td>
-            <td>{{ m.marks_obtained }}</td>
-            <td>{{ m.max_marks }}</td>
+            <th>Test Date</th>
+            <th>Subject</th>
+            <th>Description</th>
+            <th>Marks Obtained</th>
+            <th>Max Marks</th>
           </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  {% else %}
-    <p>No marks available.</p>
-  {% endif %}
+        </thead>
+        <tbody>
+          {% for m in marks %}
+            <tr>
+              <td>{{ m.test_date }}</td>
+              <td>{{ m.subject }}</td>
+              <td>{{ m.description or 'N/A' }}</td>
+              <td>{{ m.marks_obtained }}</td>
+              <td>{{ m.max_marks }}</td>
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    {% else %}
+      <p>No marks available.</p>
+    {% endif %}
 
-  
-  <br>
-<a href="javascript:history.back()">
-  <button>⬅ Back</button>
-</a>
-
-</div>
-</div>
-</body>
-</html>
+    <br>
+    <a href="javascript:history.back()">
+      <button>⬅ Back</button>
+    </a>
+  </div>
+{% endblock %}

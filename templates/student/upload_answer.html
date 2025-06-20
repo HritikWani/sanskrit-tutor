@@ -1,19 +1,8 @@
-<!-- templates/student/upload_answer.html -->
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Upload Answer</title>
-  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <div class="page-header">
-  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
-  <div class="title">Gajanan Classes</div>
-</div>
+{% extends "base.html" %}
 
-<div class="main-content">
-  
+{% block title %}Upload Answer{% endblock %}
 
+{% block content %}
   <div class="container">
     <h2>Upload Answer PDF</h2>
 
@@ -34,11 +23,8 @@
     </form>
 
     <br>
-<a href="javascript:history.back()">
-  <button>⬅ Back</button>
-</a>
-
-</div>
+    <a href="javascript:history.back()">
+      <button>⬅ Back</button>
+    </a>
   </div>
-</body>
-</html>
+{% endblock %}

@@ -1,53 +1,47 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Assigned Tests</title>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-    <div class="page-header">
-  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
-  <div class="title">Gajanan Classes</div>
-</div>
+{% extends "base.html" %}
 
-<div class="main-content">
-  
+{% block title %}Assigned Tests{% endblock %}
 
+{% block content %}
   <div class="container">
     <h2>Available Tests (Assigned by Tutor)</h2>
+
     <table border="1">
-      <tr>
-        <th>Subject</th>
-        <th>Date</th>
-        <th>Class</th>
-        <th>Question Paper</th>
-        <th>Delete</th>
-      </tr>
-
-      {% for t in tests %}
-      <tr>
-        <td>{{ t.subject }}</td>
-        <td>{{ t.test_date }}</td>
-        <td>{{ t.class }}</td>
-        <td>
-          {% if t.question_paper %}
-            <a href="{{ url_for('static', filename='uploads/' ~ t.question_paper) }}" target="_blank">View</a>
-          {% else %}
-            Not Uploaded
-          {% endif %}
-        </td>
-        <td>
-          <a href="/admin/delete-test/{{ t._id }}" onclick="return confirm('Are you sure you want to delete this test?')">Delete</a>
-        </td>
-      </tr>
-      {% endfor %}
+      <thead>
+        <tr>
+          <th>Subject</th>
+          <th>Class</th>
+          <th>School</th>
+          <th>Date</th>
+          <th>Description</th>
+          <th>Question Paper</th>
+          <th>Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in tests %}
+        <tr>
+          <td>{{ t.subject or 'N/A' }}</td>
+          <td>{{ t.class }}</td>
+          <td>{{ t.school or 'N/A' }}</td>
+          <td>{{ t.test_date }}</td>
+          <td>{{ t.description or '—' }}</td>
+          <td>
+            {% if t.question_paper %}
+              <a href="{{ url_for('static', filename='uploads/' ~ t.question_paper) }}" target="_blank">View</a>
+            {% else %}
+              Not Uploaded
+            {% endif %}
+          </td>
+          <td>
+            <a href="/admin/delete-test/{{ t._id }}" onclick="return confirm('Are you sure you want to delete this test?')">Delete</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
     </table>
-    <br>
-<a href="javascript:history.back()">
-  <button>⬅ Back</button>
-</a>
 
-</div>
+    <br>
+    <a href="javascript:history.back()"><button>⬅ Back</button></a>
   </div>
-</body>
-</html>
+{% endblock %}

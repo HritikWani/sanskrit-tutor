@@ -1,35 +1,22 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Add Student</title>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+{% extends "base.html" %}
 
-</head>
-<body>
-  <div class="page-header">
-  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
-  <div class="title">Gajanan Classes</div>
-</div>
+{% block title %}Add Student{% endblock %}
 
-<div class="main-content">
- 
-
+{% block content %}
   <div class="container">
     <h2>Add New Student</h2>
-  <form method="POST" action="/admin/add-student">
-  Name: <input type="text" name="name" required><br>
-  Class: <input type="number" name="class" required><br>
-  School: <input type="text" name="school" required><br>
-  Contact: <input type="text" name="contact" required><br>
-  <input type="submit" value="Add Student">
-</form>
 
-  <br>
-<a href="javascript:history.back()">
-  <button>⬅ Back</button>
-</a>
+    <form method="POST" action="/admin/add-student">
+      Name: <input type="text" name="name" required><br>
+      Class: <input type="number" name="class" required><br>
+      School: <input type="text" name="school" required><br>
+      Contact: <input type="text" name="contact" required><br>
+      <input type="submit" value="Add Student">
+    </form>
 
-</div>
+    <br>
+    <a href="javascript:history.back()">
+      <button>⬅ Back</button>
+    </a>
   </div>
-</body>
-</html>
+{% endblock %}

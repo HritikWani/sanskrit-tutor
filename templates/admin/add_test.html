@@ -1,17 +1,8 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Add Test</title>
-  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
-</head>
-<body>
-  <div class="page-header">
-  <img src="{{ url_for('static', filename='logo.jpg') }}" alt="Logo">
-  <div class="title">Gajanan Classes</div>
-</div>
+{% extends "base.html" %}
 
-<div class="main-content">
-  
+{% block title %}Add Test{% endblock %}
+
+{% block content %}
   <div class="container">
     <h2>Add New Test</h2>
 
@@ -21,6 +12,9 @@
 
       <label for="school">School:</label><br>
       <input type="text" id="school" name="school" required><br><br>
+
+      <label for="subject">Subject:</label><br>
+      <input type="text" id="subject" name="subject" required><br><br>
 
       <label for="date">Date:</label><br>
       <input type="date" id="date" name="date" required><br><br>
@@ -35,11 +29,8 @@
     </form>
 
     <br>
-<a href="javascript:history.back()">
-  <button>⬅ Back</button>
-</a>
-
-</div>
+    <a href="javascript:history.back()">
+      <button>⬅ Back</button>
+    </a>
   </div>
-</body>
-</html>
+{% endblock %}
