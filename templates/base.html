@@ -12,11 +12,12 @@
       <div class="title">Gajanan Classes</div>
     </div>
 
-    {% if session.get('name') %}
-      <div class="right-section">
+    {% if request.endpoint != 'login' and session.get('name') %}
+    <div class="right-section">
         Welcome, {{ session['name'] }}
-      </div>
+    </div>
     {% endif %}
+
   </div>
 
   <div class="main-content">
