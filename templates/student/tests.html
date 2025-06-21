@@ -26,7 +26,6 @@
             <td>{{ t.school or 'N/A' }}</td>
             <td>{{ t.test_date }}</td>
             <td>{{ t.description or 'N/A' }}</td>
-            <td>
               <td>
                 {% if t.question_paper %}
                   <a href="{{ t.question_paper }}" target="_blank">View</a>
@@ -34,8 +33,6 @@
                   Not Uploaded
                 {% endif %}
               </td>
-
-            </td>
           </tr>
           {% endfor %}
         </tbody>

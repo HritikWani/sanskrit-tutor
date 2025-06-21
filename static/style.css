@@ -127,3 +127,11 @@ form textarea {
 .flashes li {
   margin: 5px 0;
 }
+
+
+.page-header .right-section {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px; /* Adjust based on layout */
+}

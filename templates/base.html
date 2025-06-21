@@ -14,7 +14,7 @@
 
     {% if request.endpoint != 'login' and session.get('name') %}
     <div class="right-section">
-        Welcome, {{ session['name'] }}
+        {{ session['name'] }}
     </div>
     {% endif %}
 
