@@ -256,7 +256,7 @@ def add_test():
         filename = None
         if file and allowed_file(file.filename):
             filename = secure_filename(f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}_{file.filename}")
-            upload_result = cloudinary.uploader.upload(file, folder="tests", resource_type="raw")
+            upload_result = cloudinary.uploader.upload(file, folder="tests", resource_type="raw", type="upload")
             file_url = upload_result['secure_url']
         else:
             flash("Invalid file type. Upload PDF or image only.")
@@ -310,7 +310,7 @@ def student_upload_answer():
 
         if file and allowed_file(file.filename) and file.filename.lower().endswith('.pdf'):
             try:
-                upload_result = cloudinary.uploader.upload(file, folder="answers", resource_type="raw")
+                upload_result = cloudinary.uploader.upload(file, folder="answers", resource_type="raw", type="upload")
                 file_url = upload_result['secure_url']
             except Exception as e:
                 flash("File upload failed.")
