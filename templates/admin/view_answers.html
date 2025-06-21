@@ -10,8 +10,8 @@
       <ul>
         {% for ans in answers %}
           <li>
-            <a href="{{ url_for('static', filename='uploads/' ~ ans.filename) }}" target="_blank">
-              {{ ans.filename }}
+            <a href="{{ ans.file_url }}" target="_blank">
+              View Answer
             </a> 
             – Uploaded at {{ ans.upload_time.strftime('%Y-%m-%d %H:%M:%S') }}
           </li>

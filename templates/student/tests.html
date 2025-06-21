@@ -22,16 +22,19 @@
           {% for t in tests %}
           <tr>
             <td>{{ t.subject or 'N/A' }}</td>
-            <td>{{ t.class }}</td>
+            <td>{{ t['class'] }}</td>
             <td>{{ t.school or 'N/A' }}</td>
             <td>{{ t.test_date }}</td>
             <td>{{ t.description or 'N/A' }}</td>
             <td>
-              {% if t.question_paper %}
-                <a href="{{ url_for('static', filename='uploads/' ~ t.question_paper) }}" target="_blank">View</a>
-              {% else %}
-                Not Uploaded
-              {% endif %}
+              <td>
+                {% if t.question_paper %}
+                  <a href="{{ t.question_paper }}" target="_blank">View</a>
+                {% else %}
+                  Not Uploaded
+                {% endif %}
+              </td>
+
             </td>
           </tr>
           {% endfor %}

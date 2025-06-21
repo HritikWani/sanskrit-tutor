@@ -3,19 +3,31 @@ from pymongo import MongoClient
 from werkzeug.utils import secure_filename
 import os
 import datetime
+import cloudinary
+import cloudinary.uploader
+
+cloudinary.config(
+  cloud_name = os.getenv('CLOUDINARY_CLOUD_NAME'),
+  api_key = os.getenv('CLOUDINARY_API_KEY'),
+  api_secret = os.getenv('CLOUDINARY_API_SECRET')
+)
+
 
 app = Flask(__name__)
 app.secret_key = os.environ.get('FLASK_SECRET_KEY')
+app.config['MAX_CONTENT_LENGTH'] = 20 * 1024 * 1024  # 10MB max
 
+from flask import abort
 
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
+@app.errorhandler(413)
+def file_too_large(e):
+    flash("File is too large. Max size is 10MB.")
+    return redirect(request.url)
+
 ALLOWED_EXTENSIONS = {'pdf', 'png', 'jpg', 'jpeg'}
 
 def allowed_file(filename):
     return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
-
-if not os.path.exists(app.config['UPLOAD_FOLDER']):
-    os.makedirs(app.config['UPLOAD_FOLDER'])
 
 
 # MongoDB connection
@@ -26,6 +38,8 @@ users_col = db['users']
 students_col = db['students']
 tests_col = db['tests']
 schedules_col = db['schedules']
+answers_col = db['answers']
+
 
 # ---------------- LOGIN ---------------- #
 @app.route('/login', methods=['GET', 'POST'])
@@ -40,6 +54,7 @@ def login():
 
         u = users_col.find_one({"username": username})
         if u and u['password'] == password:
+            session.permanent = False
             session['username'] = u['username']
             session['role'] = u['role']
 
@@ -241,7 +256,8 @@ def add_test():
         filename = None
         if file and allowed_file(file.filename):
             filename = secure_filename(f"{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}_{file.filename}")
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+            upload_result = cloudinary.uploader.upload(file, resource_type="auto")
+            file_url = upload_result['secure_url']
         else:
             flash("Invalid file type. Upload PDF or image only.")
             return redirect('/admin/add-test')
@@ -249,12 +265,13 @@ def add_test():
         test_data = {
             "class": class_num,
             "school": school,
-            "subject": subject,  # ✅ Add subject to DB
+            "subject": subject,
             "test_date": test_date,
             "description": description,
-            "question_paper": filename,
+            "question_paper": file_url,  # ✅ use Cloudinary URL
             "type": "assigned"
         }
+
 
 
         tests_col.insert_one(test_data)
@@ -269,7 +286,7 @@ def add_test():
 def admin_view_answers(student_id):
     if session.get('role') != 'admin':
         return redirect('/login')
-    answers = list(db['answers'].find({"student_id": student_id}))
+    answers = list(answers_col.find({"student_id": student_id}))
     student = students_col.find_one({"student_id": student_id})
     return render_template('admin/view_answers.html', answers=answers, student=student)
 
@@ -292,10 +309,9 @@ def student_upload_answer():
         file = request.files.get('pdf_file')
 
         if file and allowed_file(file.filename) and file.filename.lower().endswith('.pdf'):
-            filename = secure_filename(f"{student_id}_{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}.pdf")
-            filepath = os.path.join(app.config['UPLOAD_FOLDER'], filename)
             try:
-                file.save(filepath)
+                upload_result = cloudinary.uploader.upload(file, resource_type="auto")
+                file_url = upload_result['secure_url']
             except Exception as e:
                 flash("File upload failed.")
                 return redirect('/student/upload-answer')
@@ -303,9 +319,10 @@ def student_upload_answer():
 
             db['answers'].insert_one({
                 "student_id": student_id,
-                "filename": filename,
+                "file_url": file_url,
                 "upload_time": datetime.datetime.utcnow()
             })
+
 
             flash("Answer PDF uploaded successfully.")
             return redirect('/student/upload-answer')
