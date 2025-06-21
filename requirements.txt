@@ -2,3 +2,4 @@ Flask
 pymongo
 dnspython
 gunicorn  # for Render deployment
+cloudinary
