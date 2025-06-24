@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Pending Students{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Pending Student Approvals</h2>
+
+  {% if students %}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Class</th>
+          <th>School</th>
+          <th>Contact</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td>{{ s.student_id }}</td>
+          <td>{{ s.name }}</td>
+          <td>{{ s.class }}</td>
+          <td>{{ s.school }}</td>
+          <td>{{ s.contact }}</td>
+          <td>
+            <a href="/admin/approve-student/{{ s.student_id }}">✅ Approve</a> |
+            <a href="/admin/reject-student/{{ s.student_id }}" onclick="return confirm('Reject this student?')">❌ Reject</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No pending registrations.</p>
+  {% endif %}
+
+  <br>
+  <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
+</div>
+{% endblock %}

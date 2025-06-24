@@ -19,11 +19,14 @@
       <label for="date">Date:</label><br>
       <input type="date" id="date" name="date" required><br><br>
 
+      <label for="max_marks">Maximum Marks:</label><br>
+      <input type="number" id="max_marks" name="max_marks" min="1" required><br><br>
+
       <label for="description">Description (optional):</label><br>
       <textarea id="description" name="description" rows="3" cols="30"></textarea><br><br>
 
       <label for="question_paper">Upload Question Paper (PDF/Image):</label><br>
-      <input type="file" id="question_paper" name="question_paper" accept=".pdf,.png,.jpg,.jpeg"><br><br>
+      <input type="file" id="question_paper" name="question_paper" accept=".pdf,.png,.jpg,.jpeg" required><br><br>
 
       <button type="submit">Add Test</button>
     </form>

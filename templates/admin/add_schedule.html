@@ -9,10 +9,12 @@
     <form method="POST" action="/admin/add-schedule">
       Class: <input type="number" name="class" required><br>
       School: <input type="text" name="school" required><br>
-      Day: <input type="text" name="day" placeholder="e.g. Monday" required><br>
-      Time: <input type="text" name="time" placeholder="e.g. 4:00 PM - 5:00 PM" required><br>
+      Subject: <input type="text" name="subject" required><br>
+      Date: <input type="date" name="date" required><br>
+      Schedule Time: <input type="text" name="schedule_time" placeholder="e.g. Monday 4:00 PM - 5:00 PM" required>
       <input type="submit" value="Add Schedule">
     </form>
+
 
     <br>
     <a href="javascript:history.back()">

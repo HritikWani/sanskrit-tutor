@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+{% block title %}Submitted Answers{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Submitted Answers</h2>
+
+  {% if answers %}
+    <table border="1">
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Name</th>
+          <th>Subject</th>
+          <th>Class</th>
+          <th>School</th>
+          <th>Test Date</th>
+          <th>Answer File</th>
+          <th>Marks</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for ans in answers %}
+          {% set student = students[ans.student_id] %}
+          {% set test = tests[ans.test_id|string] %}
+          <tr>
+            <td>{{ student.student_id }}</td>
+            <td>{{ student.name }}</td>
+            <td>{{ test.subject }}</td>
+            <td>{{ student.class }}</td>
+            <td>{{ student.school }}</td>
+            <td>{{ test.test_date.strftime('%d-%m-%Y') }}</td>
+            <td><a href="{{ ans.file_url }}" target="_blank">📄 View</a></td>
+            <td>
+              {% if ans.marks_obtained is defined %}
+                {{ ans.marks_obtained }} / {{ test.max_marks }}
+              {% else %}
+                Pending
+              {% endif %}
+            </td>
+            <td>
+              {% if ans.marks_obtained is not defined %}
+                <button onclick="openMarksModal('{{ ans._id }}', '{{ test.max_marks }}')">✏️ Add Marks</button>
+              {% else %}
+                ✅ Graded
+              {% endif %}
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No submitted answers found.</p>
+  {% endif %}
+
+  <br>
+  <a href="javascript:history.back()"><button>⬅ Back</button></a>
+</div>
+
+<!-- Modal -->
+<div id="marksModal" style="display:none; position:fixed; top:20%; left:50%; transform:translateX(-50%); background:white; padding:20px; border:1px solid #888; box-shadow: 0 0 10px #aaa; z-index:1000;">
+  <form id="marksForm">
+    <h3>Enter Marks</h3>
+    <input type="hidden" name="answer_id" id="answer_id">
+    <input type="number" name="marks" id="marks_input" required min="0">
+    <span id="marks_label"></span>
+    <br><br>
+    <button type="submit">✅ Submit</button>
+    <button type="button" onclick="closeModal()">Cancel</button>
+  </form>
+</div>
+
+<script>
+  function openMarksModal(answerId, maxMarks) {
+    document.getElementById('answer_id').value = answerId;
+    document.getElementById('marks_input').max = maxMarks;
+    document.getElementById('marks_label').textContent = ` / ${maxMarks}`;
+    document.getElementById('marksModal').style.display = 'block';
+  }
+
+  function closeModal() {
+    document.getElementById('marksModal').style.display = 'none';
+  }
+
+  document.getElementById('marksForm').addEventListener('submit', async function (e) {
+    e.preventDefault();
+    const answerId = document.getElementById('answer_id').value;
+    const marks = document.getElementById('marks_input').value;
+
+    const response = await fetch('/admin/update-marks', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ answer_id: answerId, marks: marks })
+    });
+
+    if (response.ok) {
+      location.reload();
+    } else {
+      alert("Failed to update marks.");
+    }
+  });
+</script>
+{% endblock %}

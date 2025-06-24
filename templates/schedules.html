@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% block title %}Class Schedules{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h2>Class Schedules</h2>
+
+    {% if can_add %}
+        <a href="/admin/add-schedule"><button>Add Schedule</button></a>
+    {% endif %}
+    <br>    <hr>    <br>
+
+    {% if schedules %}
+      <table border="1">
+        <tr>
+          <th>Class</th>
+          <th>School</th>
+          <th>Subject</th>
+          <th>Date</th>
+          <th>Schedule Time</th>
+          {% if can_add %}
+            <th>Action</th>
+          {% endif %}
+        </tr>
+        {% for sch in schedules %}
+          <tr>
+            <td>{{ sch.class }}</td>
+            <td>{{ sch.school }}</td>
+            <td>{{ sch.subject or '—' }}</td>
+            <td>{{ sch.date }}</td>
+            <td>{{ sch.schedule_time }}</td>
+            {% if can_add %}
+              <td>
+                <a href="/admin/delete-schedule/{{ sch._id }}" onclick="return confirm('Are you sure?')">Delete</a>
+              </td>
+            {% endif %}
+          </tr>
+        {% endfor %}
+      </table>
+    {% else %}
+      <p>No upcoming schedules.</p>
+    {% endif %}
+
+    <br>
+    <a href="javascript:history.back()">
+      <button>⬅ Back</button>
+    </a>
+  </div>
+{% endblock %}
