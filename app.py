@@ -1,6 +1,5 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from pymongo import MongoClient
-from werkzeug.utils import secure_filename
 import os
 import datetime
 import cloudinary

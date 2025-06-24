@@ -6,3 +6,4 @@ cloudinary
 bcrypt
 random
 smtplib
+functools
