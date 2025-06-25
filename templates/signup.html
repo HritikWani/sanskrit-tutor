@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container">
   <h2>Student Signup</h2>
-  <form method="POST" action="/signup">
+  <form method="POST" action="/signup" onsubmit="return validateSignupForm()">
         Name: <input name="name" required><br>
         Class: <input name="class" type="number" required><br>
         School: <input name="school" required><br>
@@ -13,8 +13,21 @@
         Username: <input name="username" required><br>
         Password: <input name="password" type="password" required><br>
         <button type="submit">Signup</button>
-    </form>
-   <br>
-   <a href="/login">Already have an account? Login</a>
+  </form>
+  <br>
+  <a href="/login">Already have an account? Login</a>
 </div>
+
+<script>
+function validateSignupForm() {
+  const password = document.querySelector('input[name="password"]').value;
+  const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[!@#$%^&*(),.?":{}|<>]).{8,}$/;
+
+  if (!regex.test(password)) {
+    alert("Password must be at least 8 characters and include uppercase, lowercase, number, and special character.");
+    return false;
+  }
+  return true;
+}
+</script> 
 {% endblock %}
