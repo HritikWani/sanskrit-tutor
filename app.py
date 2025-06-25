@@ -379,7 +379,7 @@ def add_test():
             "question_paper": file_url, 
         })
         flash("Test added successfully.")
-        return redirect('/admin/tests')
+        return redirect('/tests')
     return render_template('admin/add_test.html')
 
 @app.route('/admin/delete-student/<id>')
@@ -398,7 +398,7 @@ def delete_test(id):
 @login_required('admin')
 def delete_schedule(id):
     schedules_col.delete_one({"_id": ObjectId(id)})
-    return redirect('/admin/schedules')
+    return redirect('/schedules')
 
 @app.route('/admin/submitted-answers')
 @login_required('admin')
@@ -535,51 +535,56 @@ def student_upload_answer(test_id):
 @app.route('/schedules')
 @login_required_any('admin','student')
 def view_schedules():
-    today = get_today()
-    if session.get('role') == 'admin':
-        schedules = list(schedules_col.find())
-        can_add = True
-    else:
-        schedules = list(schedules_col.find({
-            "class": session.get('class'),
-            "school": session.get('school'),
-            "date": {"$gte": today}
-        }))
-        can_add = False
-
-    return render_template('shared/schedules.html', schedules=schedules, can_add=can_add)
-
+    try:
+        today = get_today()
+        if session.get('role') == 'admin':
+            schedules = list(schedules_col.find())
+            can_add = True
+        else:
+            schedules = list(schedules_col.find({
+                "class": session.get('class'),
+                "school": session.get('school'),
+                "date": {"$gte": today}
+            }))
+            can_add = False
+        return render_template('shared/schedules.html', schedules=schedules, can_add=can_add)
+    except Exception as e:
+        print("Error in /schedules:", e)
+        return "Internal Server Error", 500
 
 @app.route('/tests')
 @login_required_any('admin','student')
 def view_tests():
-    role = session.get('role')
-    
-    if role == 'admin':
-        tests = list(tests_col.find())
-        can_add = True
-        return render_template('tests.html', tests=tests, can_add=can_add)
+    try:
+        role = session.get('role')
+        
+        if role == 'admin':
+            tests = list(tests_col.find())
+            can_add = True
+            return render_template('tests.html', tests=tests, can_add=can_add)
 
-    elif role == 'student':
-        today = datetime.today().date()
-        start = datetime.combine(today, datetime.min.time())
-        end = datetime.combine(today, datetime.max.time())
+        elif role == 'student':
+            today = datetime.today().date()
+            start = datetime.combine(today, datetime.min.time())
+            end = datetime.combine(today, datetime.max.time())
 
-        tests = list(tests_col.find({
-            "class": session.get('class'),
-            "school": session.get('school'),
-            "test_date": {"$gte": start, "$lte": end}
-        }))
+            tests = list(tests_col.find({
+                "class": session.get('class'),
+                "school": session.get('school'),
+                "test_date": {"$gte": start, "$lte": end}
+            }))
 
-        uploaded = {
-            str(a['test_id']): a
-            for a in answers_col.find({
-                "student_id": session.get('student_id')
-            })
-        }
-        can_add = False
-        return render_template('tests.html', tests=tests, uploaded_answers=uploaded, can_add=can_add)
-
+            uploaded = {
+                str(a['test_id']): a
+                for a in answers_col.find({
+                    "student_id": session.get('student_id')
+                })
+            }
+            can_add = False
+            return render_template('tests.html', tests=tests, uploaded_answers=uploaded, can_add=can_add)
+    except Exception as e:
+        print("Error in /tests:", e)
+        return "Internal Server Error", 500
 
 
 

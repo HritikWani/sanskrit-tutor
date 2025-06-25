@@ -7,11 +7,21 @@
     <h2>Add Class Schedule</h2>
 
     <form method="POST" action="/admin/add-schedule">
-      Class: <input type="number" name="class" required><br>
-      School: <input type="text" name="school" required><br>
-      Subject: <input type="text" name="subject" required><br>
-      Date: <input type="date" name="date" required><br>
-      Schedule Time: <input type="text" name="schedule_time" placeholder="e.g. Monday 4:00 PM - 5:00 PM" required>
+      <label for="class">Class: </label><br>
+      <input type="number" id="class" name="class" required><br><br>
+
+      <label for="school">School: </label><br>
+      <input type="text" id="school" name="school" required><br><br>
+
+      <label for="subject">Subject: </label><br>
+      <input type="text" id="subject" name="subject" required><br><br>
+
+      <label for="date">Date: </label><br>
+      <input type="date" id="date" name="date" required><br><br>
+
+      <label for="schedule_time:">Schedule Time:</label><br>
+      <input type="text" id="schedule_time" name="schedule_time" placeholder="e.g. Monday 4:00 PM - 5:00 PM" required><br><br>
+
       <button type="submit">➕ Add Schedule</button>
     </form>
 
