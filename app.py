@@ -392,7 +392,7 @@ def delete_student(id):
 @login_required('admin')
 def delete_test(id):
     tests_col.delete_one({"_id": ObjectId(id)})
-    return redirect('/admin/tests')
+    return redirect('/tests')
 
 @app.route('/admin/delete-schedule/<id>')
 @login_required('admin')
@@ -416,7 +416,7 @@ def view_submitted_answers():
 
     if not answers:
         flash("No submitted answers found.")
-        return render_template('submitted_answers.html', answers=[], students={}, tests={})
+        return render_template('admin/submitted_answers.html', answers=[], students={}, tests={})
 
     # Get unique student_ids and test_ids from the results
     student_ids = list(set(a['student_id'] for a in answers))
@@ -433,7 +433,7 @@ def view_submitted_answers():
         for t in tests_col.find({"_id": {"$in": test_ids}})
     }
 
-    return render_template('submitted_answers.html', answers=answers, students=students, tests=tests)
+    return render_template('admin/submitted_answers.html', answers=answers, students=students, tests=tests)
 
 @app.route('/admin/update-marks', methods=['POST'])
 @login_required('admin')
