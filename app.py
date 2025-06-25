@@ -90,14 +90,6 @@ def is_strong_password(password):
 # ---------------Home------------------- #
 @app.route('/')
 def home():
-    import bcrypt
-    hashed_pw = bcrypt.hashpw(b"admin@004", bcrypt.gensalt())
-    user = {
-        "username": "admin",
-        "password": hashed_pw,
-        "role": "admin"
-    }
-    users_col.insert_one(user)
     if 'role' in session:
         if session['role'] == 'admin': return redirect('/admin/dashboard')
         elif session['role'] == 'student': return redirect('/student/dashboard')
