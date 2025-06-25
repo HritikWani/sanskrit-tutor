@@ -95,12 +95,6 @@ def login():
             return redirect('/login')
 
         u = users_col.find_one({"username": username})
-        student = get_student(u['student_id'])
-        if student:
-            if student.get("status") != "approved":
-                flash("Your registration is pending admin approval.")
-                return redirect('/login')
-
         if u and bcrypt.checkpw(password.encode(), u['password']):
             # Update last login timestamp
             users_col.update_one(
@@ -116,6 +110,9 @@ def login():
             
             student = get_student(u['student_id'])
             if student:
+                if student.get("status") != "approved":
+                    flash("Your registration is pending admin approval.")
+                    return redirect('/login')
                 session.update({
                     'student_id': student['student_id'],
                     'name': student['name'],
