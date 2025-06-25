@@ -547,7 +547,7 @@ def view_schedules():
                 "date": {"$gte": today}
             }))
             can_add = False
-        return render_template('shared/schedules.html', schedules=schedules, can_add=can_add)
+        return render_template('schedules.html', schedules=schedules, can_add=can_add)
     except Exception as e:
         print("Error in /schedules:", e)
         return "Internal Server Error", 500
