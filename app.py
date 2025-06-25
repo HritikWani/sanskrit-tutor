@@ -341,7 +341,7 @@ def add_schedule():
             "date": request.form['date'],  # format: YYYY-MM-DD
             "schedule_time": request.form['schedule_time']
         })
-        return redirect('/admin/schedules')
+        return redirect('/schedules')
     return render_template('admin/add_schedule.html')
 
 @app.route('/admin/add-test', methods=['GET', 'POST'])
