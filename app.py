@@ -1,7 +1,7 @@
 from flask import Flask, render_template, request, redirect, session, flash
 from pymongo import MongoClient
 import os
-import datetime
+from datetime import datetime
 import cloudinary
 import cloudinary.uploader
 from flask import abort
@@ -56,8 +56,6 @@ def login_required(role):
         return decorated_function
     return wrapper
 
-from functools import wraps
-
 def login_required_any(*roles):
     def wrapper(f):
         @wraps(f)
@@ -72,7 +70,7 @@ def login_required_any(*roles):
 
 
 def get_today():
-    return datetime.datetime.today().strftime('%Y-%m-%d')
+    return datetime.today().strftime('%Y-%m-%d')
 
 def get_student(student_id):
     return students_col.find_one({"student_id": student_id})
@@ -537,8 +535,7 @@ def student_upload_answer(test_id):
 @app.route('/schedules')
 @login_required_any('admin','student')
 def view_schedules():
-    today = datetime.datetime.today().strftime('%Y-%m-%d')
-
+    today = get_today()
     if session.get('role') == 'admin':
         schedules = list(schedules_col.find())
         can_add = True
