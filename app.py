@@ -218,7 +218,7 @@ def verify_otp():
                 "name": data['name'],
                 "class": data['class'],
                 "school": data['school'],
-                "contact": data['contact']
+                "contact": data['contact'],
                 "status": "pending"  # or "approved" once admin verifies
             })
 
