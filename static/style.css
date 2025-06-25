@@ -1,17 +1,18 @@
 /* ---------- GLOBAL STYLES ---------- */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
   background: linear-gradient(to bottom right, #fff3e0, #ff9800); /* saffron theme */
   min-height: 100vh;
+  color: #333;
 }
 
 /* ---------- HEADER ---------- */
 .page-header {
   display: flex;
   align-items: center;
-  justify-content: space-between; /* allow logo left, name right */
+  justify-content: space-between;
   background-color: rgba(255, 255, 255, 0.95);
   padding: 15px 30px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
@@ -27,19 +28,19 @@ body {
 }
 
 .page-header img {
-  height: 50px;
+  height: 48px;
   margin-right: 15px;
 }
 
 .page-header .title {
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   color: #b35300;
 }
 
 .page-header .right-section {
-  font-weight: bold;
-  color: #333;
+  font-weight: 500;
+  color: #444;
 }
 
 /* ---------- MAIN CONTENT ---------- */
@@ -55,17 +56,20 @@ body {
 /* ---------- TYPOGRAPHY ---------- */
 h1, h2, h3 {
   color: #333;
+  font-weight: 600;
 }
 
 /* ---------- BUTTONS ---------- */
 button {
   background-color: #0066cc;
   color: white;
-  padding: 8px 16px;
+  padding: 10px 20px;
   border: none;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-weight: 500;
   cursor: pointer;
-  margin-top: 8px;
+  transition: background-color 0.3s ease;
+  margin-top: 10px;
 }
 
 button:hover {
@@ -76,6 +80,10 @@ button:hover {
 a {
   text-decoration: none;
   color: #0066cc;
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 /* ---------- LISTS ---------- */
@@ -89,18 +97,32 @@ ul li {
 }
 
 /* ---------- FORMS ---------- */
+form {
+  display: flex;
+  flex-direction: column;
+  max-width: 100%;
+}
+
 form input[type="text"],
-form input[type="file"],
+form input[type="password"],
+form input[type="email"],
 form input[type="number"],
+form input[type="file"],
 form input[type="date"],
 form select,
 form textarea {
-  padding: 8px;
+  padding: 10px;
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   margin: 5px 0 15px 0;
   border: 1px solid #ccc;
-  border-radius: 4px;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+form label {
+  margin-bottom: 5px;
+  font-weight: 500;
 }
 
 /* ---------- CONTAINERS ---------- */
@@ -109,21 +131,68 @@ form textarea {
   margin: 0 auto;
   background: white;
   padding: 30px;
-  border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 /* ---------- FLASH MESSAGES ---------- */
 .flashes {
   list-style: none;
-  padding: 10px;
+  padding: 12px 20px;
   background-color: #ffe5e5;
   border: 1px solid #ff9999;
   color: #cc0000;
-  margin: 10px 0;
-  width: fit-content;
+  margin: 20px 0;
+  border-radius: 6px;
+  max-width: 500px;
 }
 
 .flashes li {
   margin: 5px 0;
+}
+
+/* ---------- RESPONSIVE ---------- */
+@media screen and (max-width: 768px) {
+  .page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 10px 20px;
+  }
+
+  .page-header .left-section {
+    margin-bottom: 10px;
+  }
+
+  .main-content,
+  .container {
+    margin: 0 10px;
+    padding: 20px;
+  }
+
+  form input,
+  form select,
+  form textarea,
+  button {
+    max-width: 100%;
+  }
+
+  .flashes {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.forgot-password-link {
+  text-align: right;
+  display: block;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.forgot-password-link a {
+  color: #0066cc;
+}
+.forgot-password-link a:hover {
+  text-decoration: underline;
 }
