@@ -106,7 +106,7 @@ def login():
             return redirect('/login')
 
         u = users_col.find_one({"username": username})
-        if u and bcrypt.checkpw(password.encode(), u['password'].encode()):
+        if u and bcrypt.checkpw(password.encode(), u['password']):
             # Update last login timestamp
             users_col.update_one(
                 {"_id": u['_id']},
