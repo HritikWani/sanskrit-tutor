@@ -208,7 +208,6 @@ def signup():
         session['pending_email'] = email
         flash("OTP sent to your email.")
         return redirect('/verify-otp')
-    
     return render_template('signup.html')
 
 @app.route('/verify-otp', methods=['GET', 'POST'])
@@ -282,7 +281,7 @@ def reset_password_verify():
             return redirect('/reset-password/new')
         else:
             flash("Invalid OTP.")
-    return render_template('verify_reset_otp.html')
+    return render_template('verify_otp.html')
 
 @app.route('/reset-password/new', methods=['GET', 'POST'])
 def reset_password_new():

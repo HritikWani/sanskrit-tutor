@@ -43,8 +43,10 @@
     {% endif %}
 
     <br>
-    <a href="javascript:history.back()">
-      <button>⬅ Back</button>
-    </a>
+    {% if can_add %}
+    <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
+    {% else %}
+    <a href="/student/dashboard"><button>⬅ Back to Dashboard</button></a>
+    {% endif %}
   </div>
 {% endblock %}

@@ -91,5 +91,11 @@
   {% else %}
     <p>No {{ 'tests available' if session['role'] == 'admin' else 'test assigned for today' }}.</p>
   {% endif %}
+  <br>
+    {% if can_add %}
+    <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
+    {% else %}
+    <a href="/student/dashboard"><button>⬅ Back to Dashboard</button></a>
+    {% endif %}
 </div>
 {% endblock %}
