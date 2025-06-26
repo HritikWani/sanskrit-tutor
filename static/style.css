@@ -27,7 +27,6 @@ body {
   will-change: transform;
 }
 
-
 .page-header .left-section {
   display: flex;
   align-items: center;
@@ -45,9 +44,8 @@ body {
 }
 
 .page-header .right-section {
-  max-width: 100%;
-  white-space: normal;
-  overflow-wrap: break-word;
+  max-width: 40vw;
+  overflow-wrap: anywhere;
   word-break: break-word;
   text-align: right;
   font-weight: bold;
@@ -56,19 +54,14 @@ body {
   flex-shrink: 1;
 }
 
-
 /* ---------- MAIN CONTENT ---------- */
 .main-content {
-  padding: 110px 20px 30px;
+  padding: 140px 20px 30px;
   max-width: 960px;
   margin: auto;
   background-color: rgba(255, 255, 255, 0.96);
   border-radius: 8px;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-}
-.main-content,
-.container {
-  padding-top: 120px;
 }
 
 /* ---------- TYPOGRAPHY ---------- */
@@ -166,6 +159,7 @@ form label {
 .forgot-password-link a {
   color: #0066cc;
 }
+
 .forgot-password-link a:hover {
   text-decoration: underline;
 }
@@ -313,6 +307,13 @@ table a:hover {
 
   .page-header .left-section {
     margin-bottom: 10px;
+  }
+
+  .page-header .right-section {
+    width: 100%;
+    text-align: left;
+    margin-top: 5px;
+    overflow-wrap: anywhere;
   }
 
   .main-content,
