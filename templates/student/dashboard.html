@@ -2,22 +2,39 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
-<div class="container">
-  <h1>Welcome, {{ session['name'] }}</h1>
+<h2 class="dashboard-title">Welcome, {{ session['name'] }}</h2>
 
-  <ul>
-    <li><a href="/student/profile">👤 My Profile</a></li>
-    <li> <a href="/schedules">View Class Schedule</a></li>
-    <li><a href="/tests">View Assigned Tests</a></li>
-  </ul>
+<div class="dashboard-grid">
 
-  {% if pending_upload %}
-    <p style="color: red;">📝 You have a test today. Answer not uploaded yet.</p>
-  {% else %}
-    <p style="color: green;">✅ No pending test uploads today.</p>
-  {% endif %}
+  <a href="/student/profile" class="dashboard-card">
+    <i class="fas fa-user dashboard-icon"></i>
+    <div>My Profile</div>
+  </a>
 
-  <hr>
-  <a href="/logout"><button>Logout</button></a>
+  <a href="/schedules" class="dashboard-card">
+    <i class="fas fa-calendar-alt dashboard-icon"></i>
+    <div>Class Schedule</div>
+  </a>
+
+  <a href="/tests" class="dashboard-card">
+    <i class="fas fa-file-alt dashboard-icon"></i>
+    <div>Assigned Tests</div>
+  </a>
+
+  <a href="/logout" class="dashboard-card">
+    <i class="fas fa-sign-out-alt dashboard-icon"></i>
+    <div>Logout</div>
+  </a>
+
 </div>
+
+{% if pending_upload %}
+  <div class="dashboard-alert alert-pending">
+    <i class="fas fa-exclamation-circle"></i> You have a test today. Answer not uploaded yet.
+  </div>
+{% else %}
+  <div class="dashboard-alert alert-success">
+    <i class="fas fa-check-circle"></i> No pending test uploads today.
+  </div>
+{% endif %}
 {% endblock %}

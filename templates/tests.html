@@ -55,7 +55,7 @@
             {% else %}
               <form action="/student/upload-answer/{{ t._id }}" method="POST" enctype="multipart/form-data">
                 <input type="file" name="pdf_file" accept=".pdf" required>
-                <button type="submit">Upload</button>
+                <button type="submit"><i class="fas fa-upload"></i>Upload</button>
               </form>
             {% endif %}
           </td>

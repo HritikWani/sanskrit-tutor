@@ -3,9 +3,10 @@ body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   margin: 0;
   padding: 0;
-  background: linear-gradient(to bottom right, #fff3e0, #ff9800); /* saffron theme */
+  background: linear-gradient(to bottom right, #fff3e0, #ff9800);
   min-height: 100vh;
   color: #333;
+  font-size: 16px;
 }
 
 /* ---------- HEADER ---------- */
@@ -39,8 +40,13 @@ body {
 }
 
 .page-header .right-section {
-  font-weight: 500;
-  color: #444;
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+  font-weight: bold;
+  color: #333;
 }
 
 /* ---------- MAIN CONTENT ---------- */
@@ -103,12 +109,7 @@ form {
   max-width: 100%;
 }
 
-form input[type="text"],
-form input[type="password"],
-form input[type="email"],
-form input[type="number"],
-form input[type="file"],
-form input[type="date"],
+form input,
 form select,
 form textarea {
   padding: 10px;
@@ -151,8 +152,95 @@ form label {
   margin: 5px 0;
 }
 
+/* ---------- FORGOT PASSWORD ---------- */
+.forgot-password-link {
+  text-align: right;
+  display: block;
+  margin-top: -10px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.forgot-password-link a {
+  color: #0066cc;
+}
+.forgot-password-link a:hover {
+  text-decoration: underline;
+}
+
+/* ---------- DASHBOARD ---------- */
+.dashboard-title {
+  text-align: center;
+  margin-bottom: 20px;
+  font-size: 28px;
+  color: #b35300;
+}
+
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 20px;
+  padding: 10px;
+  justify-items: center;
+}
+
+.dashboard-card {
+  text-align: center;
+  background: #fff;
+  padding: 25px 15px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  text-decoration: none;
+  color: #333;
+  transition: transform 0.2s, box-shadow 0.3s;
+  width: 100%;
+  max-width: 180px;
+}
+
+.dashboard-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,0.15);
+}
+
+.dashboard-icon {
+  font-size: 40px;
+  color: #ff9800;
+  margin-bottom: 12px;
+  transition: transform 0.3s ease;
+}
+
+.dashboard-card:hover .dashboard-icon {
+  transform: scale(1.3);
+  color: #e65100;
+}
+
+.dashboard-alert {
+  text-align: center;
+  margin-top: 20px;
+  padding: 12px 20px;
+  border-radius: 6px;
+  font-weight: bold;
+  display: inline-block;
+}
+
+.alert-pending {
+  background-color: #fff3cd;
+  color: #856404;
+  border: 1px solid #ffeeba;
+}
+
+.alert-success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
 /* ---------- RESPONSIVE ---------- */
 @media screen and (max-width: 768px) {
+  html {
+    font-size: 17px;
+  }
+
   .page-header {
     flex-direction: column;
     align-items: flex-start;
@@ -180,19 +268,16 @@ form label {
     width: 100%;
     max-width: none;
   }
-}
 
-.forgot-password-link {
-  text-align: right;
-  display: block;
-  margin-top: -10px;
-  margin-bottom: 15px;
-  font-size: 14px;
-}
+  .dashboard-card {
+    max-width: 100%;
+  }
 
-.forgot-password-link a {
-  color: #0066cc;
-}
-.forgot-password-link a:hover {
-  text-decoration: underline;
+  .dashboard-icon {
+    font-size: 36px;
+  }
+
+  .dashboard-title {
+    font-size: 22px;
+  }
 }

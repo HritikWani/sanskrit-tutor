@@ -1,21 +1,28 @@
 {% extends "base.html" %}
-{% block title %}Student Signup{% endblock %}
+{% block title %}Student <i class="fas fa-pencil-alt"></i>Signup{% endblock %}
 
 {% block content %}
 <div class="container">
   <h2>Student Signup</h2>
   <form method="POST" action="/signup" onsubmit="return validateSignupForm()">
-        Name: <input name="name" required><br>
-        Class: <input name="class" type="number" required><br>
-        School: <input name="school" required><br>
-        Contact: <input name="contact" pattern="\d{10}" title="Phone number must be 10 digits" required>
-        Email: <input name="email" type="email" required><br>
-        Username: <input name="username" required><br>
-        Password: <input name="password" type="password" required><br>
-        <button type="submit">Signup</button>
+        <label for="name">Name: </label><br>
+        <input name="name" required><br><br>
+        <label for="class">Class: </label><br>
+        <input name="class" type="number" required><br><br>
+        <label for="school">School: </label><br>
+        <input name="school" required><br><br>
+        <label for="contact">Contact: </label><br>
+        <input name="contact" pattern="\d{10}" title="Phone number must be 10 digits" required><br><br>
+        <label for="email">Email: </label><br>
+        <input name="email" type="email" required><br><br>
+        <label for="username">Username: </label><br>
+        <input name="username" required><br><br>
+        <label for="password">Password: </label><br>
+        <input name="password" type="password" required><br><br>
+        <button type="submit"><i class="fas fa-pencil-alt"></i>Signup</button>
   </form>
   <br>
-  <a href="/login">Already have an account? Login</a>
+  <a href="/login">Already have an account? <i class="fas fa-key"></i>Login</a>
 </div>
 
 <script>
