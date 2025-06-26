@@ -454,22 +454,31 @@ def update_marks():
 @app.route('/student/dashboard')
 @login_required('student')
 def student_dashboard():
-    today = get_today()
+    today = datetime.today().date()
+    start = datetime.combine(today, datetime.min.time())
+    end = datetime.combine(today, datetime.max.time())
 
-    active_test = tests_col.find_one({
+    # Fetch all tests scheduled for today for this student
+    tests_today = list(tests_col.find({
         "class": session.get('class'),
         "school": session.get('school'),
-        "type": "assigned",
-        "test_date": today
-    })
+        "test_date": {"$gte": start, "$lte": end}
+    }))
 
-    pending_upload = False
-    if active_test:
-        already_uploaded = answers_col.find_one({
-            "student_id": session.get('student_id'),
-            "test_id": active_test['_id']
+    # Get all uploaded answers by the student
+    uploaded_answers = {
+        str(a['test_id']): a
+        for a in answers_col.find({
+            "student_id": session.get('student_id')
         })
-        pending_upload = not bool(already_uploaded)
+    }
+
+    # Check if any test today does not have an uploaded answer
+    pending_upload = any(
+        str(t['_id']) not in uploaded_answers
+        for t in tests_today
+    )
+
     return render_template('student/dashboard.html', pending_upload=pending_upload)
 
 @app.route('/student/profile')
@@ -484,7 +493,7 @@ def student_profile():
 @login_required('student')
 def student_upload_answer(test_id):
     student_id = session.get('student_id')
-    
+
     start = datetime.combine(datetime.today(), datetime.min.time())
     end = datetime.combine(datetime.today(), datetime.max.time())
 
