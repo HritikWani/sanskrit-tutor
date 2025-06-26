@@ -26,7 +26,6 @@
         {% if session['role'] == 'student' %}
           <th>Answer</th>
           <th>Marks</th>
-          <th>Feedback</th>
         {% elif can_add %}
           <th>Action</th>
           <th>View</th>
@@ -67,13 +66,6 @@
 
             {% else %}
               —
-            {% endif %}
-          </td>
-          <td>
-            {% if answer and answer.feedback %}
-                {{ answer.feedback }}
-            {% else %}
-                —
             {% endif %}
           </td>
 
