@@ -6,6 +6,7 @@
   <h2>Pending Student Approvals</h2>
 
   {% if students %}
+  <div class="table-responsive">
     <table>
       <thead>
         <tr>
@@ -33,6 +34,7 @@
         {% endfor %}
       </tbody>
     </table>
+    </div>
   {% else %}
     <p>No pending registrations.</p>
   {% endif %}

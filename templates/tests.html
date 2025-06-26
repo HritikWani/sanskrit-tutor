@@ -13,6 +13,7 @@
   <br><hr><br>
 
   {% if tests %}
+  <div class="table-responsive">
   <table>
     <thead>
       <tr>
@@ -88,6 +89,7 @@
       {% endfor %}
     </tbody>
   </table>
+  </div>
   {% else %}
     <p>No {{ 'tests available' if session['role'] == 'admin' else 'test assigned for today' }}.</p>
   {% endif %}

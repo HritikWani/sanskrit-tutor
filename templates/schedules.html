@@ -12,6 +12,7 @@
     <br>    <hr>    <br>
 
     {% if schedules %}
+  <div class="table-responsive">
       <table>
         <tr>
           <th>Class</th>
@@ -38,6 +39,7 @@
           </tr>
         {% endfor %}
       </table>
+  </div>
     {% else %}
       <p>No upcoming schedules.</p>
     {% endif %}
