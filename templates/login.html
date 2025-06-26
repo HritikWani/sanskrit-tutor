@@ -1,6 +1,6 @@
 {% extends 'base.html' %}
 
-{% block title %}<i class="fas fa-key"></i>Login{% endblock %}
+{% block title %}Login{% endblock %}
 
 {% block content %}
 <div class="container">
@@ -24,14 +24,14 @@
     <input type="password" name="password" required>
 
     <div class="forgot-password-link">
-        <a href="/reset-password"><i class="fas fa-question-circle"></i>Forgot Password?</a>
+        <a href="/reset-password">Forgot Password <i class="fas fa-question-circle"></i></a>
       </div>
 
-    <button type="submit"><i class="fas fa-key"></i>Login</button>
+    <button type="submit"><i class="fas fa-key"></i> Login</button>
   </form>
 
   <hr>
-    <a href="/signup">New user? <i class="fas fa-pencil-alt"></i>Sign up here</a>
+    <a href="/signup">New user? <i class="fas fa-pencil-alt"></i> Sign up here</a>
 </div>
 {% endblock %}
 

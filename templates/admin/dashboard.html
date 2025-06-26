@@ -1,20 +1,48 @@
 {% extends "base.html" %}
-
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-    <div class="container">
-        <h1>Welcome, Admin</h1>
-        <ul>
-            <li><a href="/admin/students">View Students</a></li>
-            <li><a href="/schedules">View Schedules</a></li>
-            <li><a href="/tests">View Tests</a></li>
-            <li><a href="/admin/add-schedule">Add Schedule</a></li>
-            <li><a href="/admin/add-test">Add Test</a></li>
-            <li><a href="/admin/pending-students">Pending Student Approvals</a></li>
-        </ul>
-        <hr>
-        <br>
-        <a href="/logout"><button><i class="fas fa-sign-out-alt"></i>Logout</button></a>
-    </div>
+<div class="container">
+  <h1 class="dashboard-title">Welcome, Admin</h1>
+
+  <div class="dashboard-grid">
+
+    <a href="/admin/students" class="dashboard-card">
+      <div class="dashboard-icon"><i class="fas fa-users"></i></div>
+      <div>View Students</div>
+    </a>
+
+    <a href="/schedules" class="dashboard-card">
+      <div class="dashboard-icon"><i class="fas fa-calendar-alt"></i></div>
+      <div>View Schedules</div>
+    </a>
+
+    <a href="/tests" class="dashboard-card">
+      <div class="dashboard-icon"><i class="fas fa-file-alt"></i></div>
+      <div>View Tests</div>
+    </a>
+
+    <a href="/admin/add-schedule" class="dashboard-card">
+      <div class="dashboard-icon"><i class="fas fa-calendar-plus"></i></div>
+      <div>Add Schedule</div>
+    </a>
+
+    <a href="/admin/add-test" class="dashboard-card">
+      <div class="dashboard-icon"><i class="fas fa-plus-square"></i></div>
+      <div>Add Test</div>
+    </a>
+
+    <a href="/admin/pending-students" class="dashboard-card">
+      <div class="dashboard-icon"><i class="fas fa-user-clock"></i></div>
+      <div>Pending Approvals</div>
+    </a>
+
+  </div>
+
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="/logout">
+      <button><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </a>
+  </div>
+</div>
 {% endblock %}

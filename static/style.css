@@ -82,16 +82,6 @@ button:hover {
   background-color: #004d99;
 }
 
-/* ---------- LINKS ---------- */
-a {
-  text-decoration: none;
-  color: #0066cc;
-}
-
-a:hover {
-  text-decoration: underline;
-}
-
 /* ---------- LISTS ---------- */
 ul {
   list-style-type: none;
@@ -185,18 +175,21 @@ form label {
 }
 
 .dashboard-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   text-align: center;
   background: #fff;
   padding: 25px 15px;
   border-radius: 12px;
   box-shadow: 0 2px 10px rgba(0,0,0,0.1);
   text-decoration: none;
-  color: #333;
+  color: inherit; /* prevents blue text */
   transition: transform 0.2s, box-shadow 0.3s;
   width: 100%;
   max-width: 180px;
+  cursor: pointer;
 }
-
 .dashboard-card:hover {
   transform: translateY(-4px);
   box-shadow: 0 6px 18px rgba(0,0,0,0.15);
@@ -234,6 +227,47 @@ form label {
   color: #155724;
   border: 1px solid #c3e6cb;
 }
+
+/*-------------tables---------------*/
+/* ---------- TABLES ---------- */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+table th, table td {
+  padding: 12px 15px;
+  border: 1px solid #ddd;
+  text-align: left;
+}
+
+table th {
+  background-color: #ffcc80; /* light saffron */
+  color: #333;
+  font-weight: 600;
+}
+
+table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+table tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Action Links */
+table a {
+  color: #d32f2f;
+  font-weight: 500;
+}
+
+table a:hover {
+  color: #b71c1c;
+  text-decoration: underline;
+}
+
 
 /* ---------- RESPONSIVE ---------- */
 @media screen and (max-width: 768px) {
