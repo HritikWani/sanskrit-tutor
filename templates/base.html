@@ -7,24 +7,6 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
-<script>
-  let lastScrollTop = 0;
-  const header = document.querySelector('.page-header');
-
-  window.addEventListener('scroll', () => {
-    const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
-
-    if (scrollTop > lastScrollTop) {
-      // Scrolling down — hide header
-      header.style.transform = 'translateY(-100%)';
-    } else {
-      // Scrolling up — show header
-      header.style.transform = 'translateY(0)';
-    }
-
-    lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-  });
-</script>
 
 <body>
   <div class="page-header">
@@ -54,5 +36,23 @@
 
         {% block content %}{% endblock %}
     </div>
+    <script>
+      let lastScrollTop = 0;
+      const header = document.querySelector('.page-header');
+
+      window.addEventListener('scroll', () => {
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+
+        if (scrollTop > lastScrollTop) {
+          // Scrolling down — hide header
+          header.style.transform = 'translateY(-100%)';
+        } else {
+          // Scrolling up — show header
+          header.style.transform = 'translateY(0)';
+        }
+
+        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+      });
+    </script>
 </body>
 </html>
