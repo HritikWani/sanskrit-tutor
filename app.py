@@ -548,7 +548,8 @@ def student_upload_answer(test_id):
 @login_required_any('admin','student')
 def view_schedules():
     try:
-        today = get_today()
+        today = datetime.today().date()
+        start = datetime.combine(today, datetime.min.time())
         if session.get('role') == 'admin':
             schedules = list(schedules_col.find())
             can_add = True
@@ -556,7 +557,7 @@ def view_schedules():
             schedules = list(schedules_col.find({
                 "class": session.get('class'),
                 "school": session.get('school'),
-                "date": {"$gte": today}
+                "date": {"$gte": start}
             }))
             can_add = False
         return render_template('schedules.html', schedules=schedules, can_add=can_add)
