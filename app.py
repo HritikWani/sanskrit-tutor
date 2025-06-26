@@ -333,11 +333,13 @@ def view_students():
 @login_required('admin')
 def add_schedule():
     if request.method == 'POST':
+        date= request.form['date']  # format: YYYY-MM-DD
+        
         schedules_col.insert_one({
             "class": int(request.form['class']),
             "school": request.form['school'],
             "subject": request.form['subject'],
-            "date": request.form['date'],  # format: YYYY-MM-DD
+            "test_date":datetime.strptime(date, '%Y-%m-%d'),
             "schedule_time": request.form['schedule_time']
         })
         return redirect('/schedules')
