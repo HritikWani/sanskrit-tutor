@@ -2,38 +2,40 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
-<h2 class="dashboard-title">Welcome, {{ session['name'] }}</h2>
+<div class="container">
+  <h2 class="dashboard-title">Welcome, {{ session['name'] }}</h2>
 
-<div class="dashboard-grid">
+  <div class="dashboard-grid">
 
-  <a href="/student/profile" class="dashboard-card">
-    <i class="fas fa-user dashboard-icon"></i>
-    <div>My Profile</div>
-  </a>
+    <a href="/student/profile" class="dashboard-card">
+      <i class="fas fa-user dashboard-icon"></i>
+      <div>My Profile</div>
+    </a>
 
-  <a href="/schedules" class="dashboard-card">
-    <i class="fas fa-calendar-alt dashboard-icon"></i>
-    <div>Class Schedule</div>
-  </a>
+    <a href="/schedules" class="dashboard-card">
+      <i class="fas fa-calendar-alt dashboard-icon"></i>
+      <div>Class Schedule</div>
+    </a>
 
-  <a href="/tests" class="dashboard-card">
-    <i class="fas fa-file-alt dashboard-icon"></i>
-    <div>Assigned Tests</div>
-  </a>
+    <a href="/tests" class="dashboard-card">
+      <i class="fas fa-file-alt dashboard-icon"></i>
+      <div>Assigned Tests</div>
+    </a>
 
-  <a href="/logout" class="dashboard-card">
-    <i class="fas fa-sign-out-alt dashboard-icon"></i> <div>Logout</div>
-  </a>
+    <a href="/logout" class="dashboard-card">
+      <i class="fas fa-sign-out-alt dashboard-icon"></i> <div>Logout</div>
+    </a>
 
+  </div>
+
+  {% if pending_upload %}
+    <div class="dashboard-alert alert-pending">
+      <i class="fas fa-exclamation-circle"></i> You have a test today. Answer not uploaded yet.
+    </div>
+  {% else %}
+    <div class="dashboard-alert alert-success">
+      <i class="fas fa-check-circle"></i> No pending test uploads today.
+    </div>
+  {% endif %}
 </div>
-
-{% if pending_upload %}
-  <div class="dashboard-alert alert-pending">
-    <i class="fas fa-exclamation-circle"></i> You have a test today. Answer not uploaded yet.
-  </div>
-{% else %}
-  <div class="dashboard-alert alert-success">
-    <i class="fas fa-check-circle"></i> No pending test uploads today.
-  </div>
-{% endif %}
 {% endblock %}
