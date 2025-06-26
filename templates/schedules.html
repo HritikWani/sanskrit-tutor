@@ -29,7 +29,7 @@
             <td>{{ sch.class }}</td>
             <td>{{ sch.school }}</td>
             <td>{{ sch.subject or '—' }}</td>
-            <td>{{ sch.date }}</td>
+            <td>{{ sch.date.strftime('%d-%m-%Y') }}</td>
             <td>{{ sch.schedule_time }}</td>
             {% if can_add %}
               <td>

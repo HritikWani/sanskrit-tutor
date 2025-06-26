@@ -484,13 +484,15 @@ def student_profile():
 @login_required('student')
 def student_upload_answer(test_id):
     student_id = session.get('student_id')
-    today = get_today()
+    
+    start = datetime.combine(datetime.today(), datetime.min.time())
+    end = datetime.combine(datetime.today(), datetime.max.time())
 
     test = tests_col.find_one({
         "_id": ObjectId(test_id),
         "class": session.get('class'),
         "school": session.get('school'),
-        "test_date": today
+        "test_date": {"$gte": start, "$lte": end}
     })
 
     if not test:
