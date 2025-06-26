@@ -495,16 +495,16 @@ def student_upload_answer(test_id):
 
     if not test:
         flash("This test is either not assigned today or not found.")
-        return redirect('/student/tests')
+        return redirect('/tests')
 
     if answers_col.find_one({"student_id": student_id, "test_id": ObjectId(test_id)}):
         flash("You have already uploaded the answer for this test.")
-        return redirect('/student/tests')
+        return redirect('/tests')
 
     file = request.files.get('pdf_file')
     if not file or not allowed_file(file.filename) or not file.filename.lower().endswith('.pdf'):
         flash("Invalid file. Only PDF allowed.")
-        return redirect('/student/tests')
+        return redirect('/tests')
 
     try:
         upload_result = cloudinary.uploader.upload(
@@ -516,7 +516,7 @@ def student_upload_answer(test_id):
         file_url = upload_result['secure_url']
     except Exception:
         flash("File upload failed.")
-        return redirect('/student/tests')
+        return redirect('/tests')
 
     # Save normalized answer record
     answers_col.insert_one({
@@ -528,7 +528,7 @@ def student_upload_answer(test_id):
     })
 
     flash("Answer uploaded successfully.")
-    return redirect('/student/tests')
+    return redirect('/tests')
 
 #-------------common temp-------------#
 @app.route('/schedules')
