@@ -7,25 +7,33 @@
 
   <div class="dashboard-grid">
 
-    <a href="/student/profile" class="dashboard-card">
-      <i class="fas fa-user dashboard-icon"></i>
-      <div>My Profile</div>
-    </a>
+    <form method="get" action="/student/profile" class="dashboard-card card-blue">
+      <button type="submit">
+        <i class="fas fa-user dashboard-icon"></i>
+        <div>My Profile</div>
+      </button>
+    </form>
 
-    <a href="/schedules" class="dashboard-card">
-      <i class="fas fa-calendar-alt dashboard-icon"></i>
-      <div>Class Schedule</div>
-    </a>
+    <form method="get" action="/schedules" class="dashboard-card card-green">
+      <button type="submit">
+        <i class="fas fa-calendar-alt dashboard-icon"></i>
+        <div>Class Schedule</div>
+      </button>
+    </form>
 
-    <a href="/tests" class="dashboard-card">
-      <i class="fas fa-file-alt dashboard-icon"></i>
-      <div>Assigned Tests</div>
-    </a>
+    <form method="get" action="/tests" class="dashboard-card card-orange">
+      <button type="submit">
+        <i class="fas fa-file-alt dashboard-icon"></i>
+        <div>Assigned Tests</div>
+      </button>
+    </form>
+
   </div>
+
   <div style="text-align: center; margin-top: 30px;">
-    <a href="/logout">
+    <form method="get" action="/logout">
       <button><i class="fas fa-sign-out-alt"></i> Logout</button>
-    </a>
+    </form>
   </div>
 
   {% if pending_upload %}

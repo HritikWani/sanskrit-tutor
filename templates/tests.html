@@ -8,7 +8,9 @@
   </h2>
 
   {% if can_add %}
-    <a href="/admin/add-test"><button>Add Test</button></a>
+    <form action="/admin/add-test" method="get" style="display:inline;">
+      <button type="submit">➕ Add Test</button>
+    </form>
   {% endif %}
   <br><hr><br>
 
@@ -42,7 +44,9 @@
         <td>{{ t.description or '—' }}</td>
         <td>
           {% if t.question_paper %}
-            <a href="{{ t.question_paper }}" target="_blank">View</a>
+            <form method="get" action="{{ t.question_paper }}" target="_blank" style="display:inline;">
+              <button type="submit">📄 View</button>
+            </form>
           {% else %}
             Not Uploaded
           {% endif %}
@@ -51,19 +55,20 @@
         {% if session['role'] == 'student' %}
           <td>
             {% if uploaded_answers[t._id|string] %}
-              <a href="{{ uploaded_answers[t._id|string].file_url }}" target="_blank">📄 View</a>
+              <form method="get" action="{{ uploaded_answers[t._id|string].file_url }}" target="_blank" style="display:inline;">
+                <button type="submit">📄 View</button>
+              </form>
             {% else %}
               <form action="/student/upload-answer/{{ t._id }}" method="POST" enctype="multipart/form-data">
                 <input type="file" name="pdf_file" accept=".pdf" required>
-                <button type="submit"><i class="fas fa-upload"></i>Upload</button>
+                <button type="submit"><i class="fas fa-upload"></i> Upload</button>
               </form>
             {% endif %}
           </td>
           <td>
             {% set answer = uploaded_answers.get(t._id|string) %}
             {% if answer and answer.marks_obtained is defined %}
-            {{ answer.marks_obtained }} / {{ t.max_marks }}
-
+              {{ answer.marks_obtained }} / {{ t.max_marks }}
             {% else %}
               —
             {% endif %}
@@ -71,11 +76,15 @@
 
         {% elif can_add %}
           <td>
-            <a href="/admin/delete-test/{{ t._id }}" onclick="return confirm('Delete this test?')">Delete</a>
+            <form method="get" action="/admin/delete-test/{{ t._id }}" onsubmit="return confirm('Delete this test?')" style="display:inline;">
+              <button type="submit">🗑️ Delete</button>
+            </form>
           </td>
           <td>
-            <a href="/admin/submitted-answers?test_id={{ t._id }}">View Submissions</a>
-        </td>
+            <form method="get" action="/admin/submitted-answers?test_id={{ t._id }}" style="display:inline;">
+              <button type="submit">📋 View Submissions</button>
+            </form>
+          </td>
         {% endif %}
       </tr>
       {% endfor %}
@@ -85,11 +94,16 @@
   {% else %}
     <p>No {{ 'tests available' if session['role'] == 'admin' else 'test assigned for today' }}.</p>
   {% endif %}
+
   <br>
-    {% if can_add %}
-    <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
-    {% else %}
-    <a href="/student/dashboard"><button>⬅ Back to Dashboard</button></a>
-    {% endif %}
+  {% if can_add %}
+    <form action="/admin/dashboard" method="get" style="display:inline;">
+      <button type="submit">⬅ Back to Dashboard</button>
+    </form>
+  {% else %}
+    <form action="/student/dashboard" method="get" style="display:inline;">
+      <button type="submit">⬅ Back to Dashboard</button>
+    </form>
+  {% endif %}
 </div>
 {% endblock %}

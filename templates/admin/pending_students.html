@@ -26,20 +26,26 @@
           <td>{{ s.class }}</td>
           <td>{{ s.school }}</td>
           <td>{{ s.contact }}</td>
-          <td>
-            <a href="/admin/approve-student/{{ s.student_id }}">✅ Approve</a> |
-            <a href="/admin/reject-student/{{ s.student_id }}" onclick="return confirm('Reject this student?')">❌ Reject</a>
+          <td style="display: flex; gap: 8px; flex-wrap: wrap;">
+            <form action="/admin/approve-student/{{ s.student_id }}" method="post" style="display:inline;">
+              <button type="submit">✅ Approve</button>
+            </form>
+            <form action="/admin/reject-student/{{ s.student_id }}" method="post" style="display:inline;" onsubmit="return confirm('Reject this student?')">
+              <button type="submit" style="background-color: #d9534f;">❌ Reject</button>
+            </form>
           </td>
         </tr>
         {% endfor %}
       </tbody>
     </table>
-    </div>
+  </div>
   {% else %}
     <p>No pending registrations.</p>
   {% endif %}
 
   <br>
-  <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
+  <form action="/admin/dashboard" method="get">
+    <button type="submit">⬅ Back to Dashboard</button>
+  </form>
 </div>
 {% endblock %}

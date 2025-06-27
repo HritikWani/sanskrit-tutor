@@ -6,42 +6,53 @@
   <h1 class="dashboard-title">Welcome, Admin</h1>
 
   <div class="dashboard-grid">
+    <form action="/admin/students" method="get" class="dashboard-card card-blue">
+      <button type="submit">
+        <div class="dashboard-icon"><i class="fas fa-users"></i></div>
+        <div>View Students</div>
+      </button>
+    </form>
 
-    <a href="/admin/students" class="dashboard-card">
-      <div class="dashboard-icon"><i class="fas fa-users"></i></div>
-      <div>View Students</div>
-    </a>
+    <form action="/schedules" method="get" class="dashboard-card card-green">
+      <button type="submit">
+        <div class="dashboard-icon"><i class="fas fa-calendar-alt"></i></div>
+        <div>View Schedules</div>
+      </button>
+    </form>
 
-    <a href="/schedules" class="dashboard-card">
-      <div class="dashboard-icon"><i class="fas fa-calendar-alt"></i></div>
-      <div>View Schedules</div>
-    </a>
+    <form action="/tests" method="get" class="dashboard-card card-yellow">
+      <button type="submit">
+        <div class="dashboard-icon"><i class="fas fa-file-alt"></i></div>
+        <div>View Tests</div>
+      </button>
+    </form>
 
-    <a href="/tests" class="dashboard-card">
-      <div class="dashboard-icon"><i class="fas fa-file-alt"></i></div>
-      <div>View Tests</div>
-    </a>
+    <form action="/admin/pending-students" method="get" class="dashboard-card card-pink">
+      <button type="submit">
+        <div class="dashboard-icon"><i class="fas fa-user-clock"></i></div>
+        <div>Pending Approvals</div>
+      </button>
+    </form>
 
-    <a href="/admin/pending-students" class="dashboard-card">
-      <div class="dashboard-icon"><i class="fas fa-user-clock"></i></div>
-      <div>Pending Approvals</div>
-    </a>
+    <form action="/admin/add-schedule" method="get" class="dashboard-card card-orange">
+      <button type="submit">
+        <div class="dashboard-icon"><i class="fas fa-calendar-plus"></i></div>
+        <div>Add Schedule</div>
+      </button>
+    </form>
 
-    <a href="/admin/add-schedule" class="dashboard-card">
-      <div class="dashboard-icon"><i class="fas fa-calendar-plus"></i></div>
-      <div>Add Schedule</div>
-    </a>
-
-    <a href="/admin/add-test" class="dashboard-card">
-      <div class="dashboard-icon"><i class="fas fa-plus-square"></i></div>
-      <div>Add Test</div>
-    </a>
+    <form action="/admin/add-test" method="get" class="dashboard-card card-purple">
+      <button type="submit">
+        <div class="dashboard-icon"><i class="fas fa-plus-square"></i></div>
+        <div>Add Test</div>
+      </button>
+    </form>
   </div>
 
   <div style="text-align: center; margin-top: 30px;">
-    <a href="/logout">
-      <button><i class="fas fa-sign-out-alt"></i> Logout</button>
-    </a>
+    <form action="/logout" method="get">
+      <button type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
+    </form>
   </div>
 </div>
 {% endblock %}

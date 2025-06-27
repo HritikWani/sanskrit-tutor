@@ -19,14 +19,15 @@
       <label for="date">Date: </label><br>
       <input type="date" id="date" name="date" required><br><br>
 
-      <label for="schedule_time:">Schedule Time:</label><br>
+      <label for="schedule_time">Schedule Time:</label><br>
       <input type="text" id="schedule_time" name="schedule_time" placeholder="e.g. Monday 4:00 PM - 5:00 PM" required><br><br>
 
       <button type="submit">➕ Add Schedule</button>
     </form>
 
-
     <br>
-    <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
+    <form action="/admin/dashboard" method="get">
+      <button type="submit">⬅ Back to Dashboard</button>
+    </form>
   </div>
 {% endblock %}

@@ -3,52 +3,59 @@
 {% block title %}Class Schedules{% endblock %}
 
 {% block content %}
-  <div class="container">
-    <h2>Class Schedules</h2>
+<div class="container">
+  <h2>Class Schedules</h2>
 
-    {% if can_add %}
-        <a href="/admin/add-schedule"><button>Add Schedule</button></a>
-    {% endif %}
-    <br>    <hr>    <br>
+  {% if can_add %}
+    <a href="/admin/add-schedule"><button>➕ Add Schedule</button></a>
+  {% endif %}
+  <br><hr><br>
 
-    {% if schedules %}
+  {% if schedules %}
   <div class="table-responsive">
-      <table>
-        <tr>
-          <th>Class</th>
-          <th>School</th>
-          <th>Subject</th>
-          <th>Date</th>
-          <th>Schedule Time</th>
-          {% if can_add %}
-            <th>Action</th>
-          {% endif %}
-        </tr>
-        {% for sch in schedules %}
-          <tr>
-            <td>{{ sch.class }}</td>
-            <td>{{ sch.school }}</td>
-            <td>{{ sch.subject or '—' }}</td>
-            <td>{{ sch.date.strftime('%d-%m-%Y') }}</td>
-            <td>{{ sch.schedule_time }}</td>
-            {% if can_add %}
-              <td>
-                <a href="/admin/delete-schedule/{{ sch._id }}" onclick="return confirm('Are you sure?')">Delete</a>
-              </td>
-            {% endif %}
-          </tr>
-        {% endfor %}
-      </table>
+    <table>
+      <tr>
+        <th>Class</th>
+        <th>School</th>
+        <th>Subject</th>
+        <th>Date</th>
+        <th>Schedule Time</th>
+        {% if can_add %}
+          <th>Action</th>
+        {% endif %}
+      </tr>
+      {% for sch in schedules %}
+      <tr>
+        <td>{{ sch.class }}</td>
+        <td>{{ sch.school }}</td>
+        <td>{{ sch.subject or '—' }}</td>
+        <td>{{ sch.date.strftime('%d-%m-%Y') }}</td>
+        <td>{{ sch.schedule_time }}</td>
+        {% if can_add %}
+        <td>
+          <form method="POST" action="/admin/delete-schedule/{{ sch._id }}" style="display:inline;" onsubmit="return confirm('Are you sure?')">
+            <button type="submit">🗑️ Delete</button>
+          </form>
+        </td>
+        {% endif %}
+      </tr>
+      {% endfor %}
+    </table>
   </div>
-    {% else %}
-      <p>No upcoming schedules.</p>
-    {% endif %}
+  {% else %}
+    <p>No upcoming schedules.</p>
+  {% endif %}
 
-    <br>
-    {% if can_add %}
-    <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
-    {% else %}
-    <a href="/student/dashboard"><button>⬅ Back to Dashboard</button></a>
-    {% endif %}
-  </div>
+  <br>
+  {% if can_add %}
+    <form action="/admin/dashboard" method="get" style="display:inline;">
+      <button type="submit">⬅ Back to Dashboard</button>
+    </form>
+  {% else %}
+    <form action="/student/dashboard" method="get" style="display:inline;">
+      <button type="submit">⬅ Back to Dashboard</button>
+    </form>
+  {% endif %}
+
+</div>
 {% endblock %}

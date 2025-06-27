@@ -1,28 +1,42 @@
 {% extends "base.html" %}
-{% block title %}Student <i class="fas fa-pencil-alt"></i>Signup{% endblock %}
+{% block title %}Student Signup{% endblock %}
 
 {% block content %}
 <div class="container">
-  <h2>Student Signup</h2>
+  <h2><i class="fas fa-pencil-alt"></i> Student Signup</h2>
+
   <form method="POST" action="/signup" onsubmit="return validateSignupForm()">
-        <label for="name">Name: </label><br>
-        <input name="name" required><br><br>
-        <label for="class">Class: </label><br>
-        <input name="class" type="number" required><br><br>
-        <label for="school">School: </label><br>
-        <input name="school" required><br><br>
-        <label for="contact">Contact: </label><br>
-        <input name="contact" pattern="\d{10}" title="Phone number must be 10 digits" required><br><br>
-        <label for="email">Email: </label><br>
-        <input name="email" type="email" required><br><br>
-        <label for="username">Username: </label><br>
-        <input name="username" required><br><br>
-        <label for="password">Password: </label><br>
-        <input name="password" type="password" required><br><br>
-        <button type="submit"><i class="fas fa-pencil-alt"></i> Signup</button>
+    <label for="name">Name:</label><br>
+    <input name="name" required><br><br>
+
+    <label for="class">Class:</label><br>
+    <input name="class" type="number" required><br><br>
+
+    <label for="school">School:</label><br>
+    <input name="school" required><br><br>
+
+    <label for="contact">Contact:</label><br>
+    <input name="contact" pattern="\d{10}" title="Phone number must be 10 digits" required><br><br>
+
+    <label for="email">Email:</label><br>
+    <input name="email" type="email" required><br><br>
+
+    <label for="username">Username:</label><br>
+    <input name="username" required><br><br>
+
+    <label for="password">Password:</label><br>
+    <input name="password" type="password" required><br>
+    <small style="color:#666;">
+      Must be 8+ characters with uppercase, lowercase, number, and special character.
+    </small><br><br>
+
+    <button type="submit"><i class="fas fa-pencil-alt"></i> Signup</button>
   </form>
+
   <br>
-  <a href="/login">Already have an account? <i class="fas fa-key"></i> Login</a>
+  <div style="margin-top: 10px;">
+    <a href="/login">Already have an account? <i class="fas fa-key"></i> Login</a>
+  </div>
 </div>
 
 <script>
@@ -36,5 +50,5 @@ function validateSignupForm() {
   }
   return true;
 }
-</script> 
+</script>
 {% endblock %}

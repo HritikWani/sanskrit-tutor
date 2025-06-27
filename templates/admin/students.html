@@ -6,33 +6,43 @@
   <div class="container">
     <h2>All Students</h2>
 
-  <div class="table-responsive">
-    <table>
-      <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Class</th>
-        <th>School</th>
-        <th>Contact</th>
-        <th>View</th>
-        <th>Action</th>
-      </tr>
-      {% for s in students %}
+    <div class="table-responsive">
+      <table>
         <tr>
-          <td>{{ s.student_id }}</td>
-          <td>{{ s.name }}</td>
-          <td>{{ s.class }}</td>
-          <td>{{ s.school }}</td>
-          <td>{{ s.contact }}</td>
-          <td><a href="/admin/submitted-answers?student_id={{ s.student_id }}">View Answers</a></td>
-          <td>
-            <a href="/admin/delete-student/{{ s._id }}" onclick="return confirm('Are you sure?')">Delete</a>
-          </td>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Class</th>
+          <th>School</th>
+          <th>Contact</th>
+          <th>View</th>
+          <th>Action</th>
         </tr>
-      {% endfor %}
-    </table>
-  </div>
+        {% for s in students %}
+          <tr>
+            <td>{{ s.student_id }}</td>
+            <td>{{ s.name }}</td>
+            <td>{{ s.class }}</td>
+            <td>{{ s.school }}</td>
+            <td>{{ s.contact }}</td>
+            <td>
+              <form method="get" action="/admin/submitted-answers" style="display:inline;">
+                <input type="hidden" name="student_id" value="{{ s.student_id }}">
+                <button type="submit">View Answers</button>
+              </form>
+            </td>
+            <td>
+              <form method="get" action="/admin/delete-student/{{ s._id }}" style="display:inline;" onsubmit="return confirm('Are you sure?')">
+                <button type="submit">Delete</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+
     <br>
-    <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
+    <form method="get" action="/admin/dashboard">
+      <button type="submit">⬅ Back to Dashboard</button>
+    </form>
   </div>
 {% endblock %}

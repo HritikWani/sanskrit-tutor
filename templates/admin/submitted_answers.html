@@ -32,7 +32,11 @@
             <td>{{ student.class }}</td>
             <td>{{ student.school }}</td>
             <td>{{ test.test_date.strftime('%d-%m-%Y') }}</td>
-            <td><a href="{{ ans.file_url }}" target="_blank">📄 View</a></td>
+            <td>
+              <form method="get" action="{{ ans.file_url }}" target="_blank" style="display:inline;">
+                <button type="submit">📄 View</button>
+              </form>
+            </td>
             <td>
               {% if ans.marks_obtained is defined %}
                 {{ ans.marks_obtained }} / {{ test.max_marks }}
@@ -42,7 +46,7 @@
             </td>
             <td>
               {% if ans.marks_obtained is not defined %}
-                <button onclick="openMarksModal('{{ ans._id }}', '{{ test.max_marks }}')">✏️ Add Marks</button>
+                <button type="button" onclick="openMarksModal('{{ ans._id }}', '{{ test.max_marks }}')">✏️ Add Marks</button>
               {% else %}
                 ✅ Graded
               {% endif %}
@@ -51,13 +55,15 @@
         {% endfor %}
       </tbody>
     </table>
-    </div>
+  </div>
   {% else %}
     <p>No submitted answers found.</p>
   {% endif %}
 
   <br>
-    <a href="/admin/dashboard"><button>⬅ Back to Dashboard</button></a>
+  <form action="/admin/dashboard" method="get" style="display:inline;">
+    <button type="submit">⬅ Back to Dashboard</button>
+  </form>
 </div>
 
 <!-- Modal -->
