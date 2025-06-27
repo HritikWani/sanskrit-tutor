@@ -9,6 +9,7 @@ from bson.objectid import ObjectId
 from functools import wraps
 import bcrypt, random, smtplib
 import re
+from datetime import datetime, timedelta, timezone
 
 
 #Cloudinary Config
@@ -67,14 +68,16 @@ def login_required_any(*roles):
         return decorated_function
     return wrapper
 
-
-
-def get_today():
-    return datetime.today().strftime('%Y-%m-%d')
+def get_ist_today_range():
+    """Returns start and end datetime of current day in IST timezone."""
+    utc_now = datetime.utcnow()
+    ist_now = utc_now + timedelta(hours=5, minutes=30)
+    start_ist = datetime.combine(ist_now, datetime.min.time())
+    end_ist = datetime.combine(ist_now, datetime.max.time())
+    return ist_now, start_ist, end_ist
 
 def get_student(student_id):
     return students_col.find_one({"student_id": student_id})
-
 
 def is_strong_password(password):
     if (len(password) < 8 or
@@ -108,9 +111,10 @@ def login():
         u = users_col.find_one({"username": username})
         if u and bcrypt.checkpw(password.encode(), u['password']):
             # Update last login timestamp
+            today, *_ =get_ist_today_range()
             users_col.update_one(
                 {"_id": u['_id']},
-                {"$set": {"last_login": datetime.utcnow()}}
+                {"$set": {"last_login": today}}
             )
             session['username'] = u['username']
             session['role'] = u['role']
@@ -228,7 +232,7 @@ def verify_otp():
             data = otp_record['data']
             student_id = str(students_col.count_documents({}) + 1)
             hashed = bcrypt.hashpw(data['password'].encode(), bcrypt.gensalt())
-
+            today, *_ =get_ist_today_range()
             students_col.insert_one({
                 "student_id": student_id,
                 "name": data['name'],
@@ -244,7 +248,7 @@ def verify_otp():
                 "email": data['email'],
                 "role": "student",
                 "student_id": student_id,
-                "created_at": datetime.utcnow(),
+                "created_at": today,
                 "last_login": None
             })
 
@@ -300,12 +304,6 @@ def reset_password_new():
 
 
 #---------------Admin Views-----------------#
-import time
-
-@app.route("/timezone")
-def timezone():
-    return f"Server Timezone: {time.tzname}"
-
 @app.route('/admin/dashboard')
 @login_required('admin')
 def admin_dashboard():
@@ -364,21 +362,8 @@ def add_schedule():
 @login_required('admin')
 def add_test():
     if request.method == 'POST':
-        try:
-            class_num = int(request.form['class'])
-            school = request.form['school']
-            subject = request.form.get('subject')
-            test_date_str = request.form['date']
-            test_date = datetime.strptime(test_date_str, '%Y-%m-%d')  # store as datetime object
-            max_marks = int(request.form['max_marks'])
-            description = request.form.get('description', '')
-            file = request.files.get('question_paper')
-        except Exception:
-            flash("Invalid or missing form fields.")
-            return redirect('/admin/add-test',
-                           subjects=metadata.get("subjects", []),
-                           schools=metadata.get("schools", []),
-                           classes=metadata.get("classes", []))
+        test_date_str = request.form['date']
+        file = request.files.get('question_paper')
 
         filename = None
         if file and allowed_file(file.filename):
@@ -389,12 +374,12 @@ def add_test():
             return redirect('/admin/add-test')
 
         tests_col.insert_one({
-            "class": class_num,
-            "school": school,
-            "subject": subject,
-            "test_date": test_date,
-            "max_marks": max_marks,
-            "description": description,
+            "class": int(request.form['class']),
+            "school": request.form.get('subject'),
+            "subject": request.form.get('subject'),
+            "test_date": datetime.strptime(test_date_str, '%Y-%m-%d'),
+            "max_marks": int(request.form['max_marks']),
+            "description": request.form.get('description', ''),
             "question_paper": file_url, 
         })
         flash("Test added successfully.")
@@ -508,10 +493,8 @@ def delete_metadata(field, value):
 @app.route('/student/dashboard')
 @login_required('student')
 def student_dashboard():
-    today = datetime.today().date()
-    start = datetime.combine(today, datetime.min.time())
-    end = datetime.combine(today, datetime.max.time())
-
+    _, start, end=get_ist_today_range()
+    
     # Fetch all tests scheduled for today for this student
     tests_today = list(tests_col.find({
         "class": session.get('class'),
@@ -547,9 +530,7 @@ def student_profile():
 @login_required('student')
 def student_upload_answer(test_id):
     student_id = session.get('student_id')
-
-    start = datetime.combine(datetime.today(), datetime.min.time())
-    end = datetime.combine(datetime.today(), datetime.max.time())
+    _, start, end=get_ist_today_range()
 
     test = tests_col.find_one({
         "_id": ObjectId(test_id),
@@ -584,11 +565,12 @@ def student_upload_answer(test_id):
         return redirect('/tests')
 
     # Save normalized answer record
+    today, *_=get_ist_today_range()
     answers_col.insert_one({
         "student_id": student_id,
         "test_id": ObjectId(test_id),
         "file_url": file_url,
-        "upload_time": datetime.utcnow(),
+        "upload_time": today,
         "status": "pending",
     })
 
@@ -600,10 +582,9 @@ def student_upload_answer(test_id):
 @login_required_any('admin','student')
 def view_schedules():
     try:
-        today = datetime.today().date()
-        start = datetime.combine(today, datetime.min.time())
+        _, start, _ =get_ist_today_range()
         if session.get('role') == 'admin':
-            schedules = list(schedules_col.find())
+            schedules = list(schedules_col.find().sort("date", -1))
             can_add = True
         else:
             schedules = list(schedules_col.find({
@@ -624,14 +605,12 @@ def view_tests():
         role = session.get('role')
         
         if role == 'admin':
-            tests = list(tests_col.find())
+            tests = list(tests_col.find().sort("test_date",-1))
             can_add = True
             return render_template('tests.html', tests=tests, can_add=can_add)
 
         elif role == 'student':
-            today = datetime.today().date()
-            start = datetime.combine(today, datetime.min.time())
-            end = datetime.combine(today, datetime.max.time())
+            _, start, end=get_ist_today_range()
 
             tests = list(tests_col.find({
                 "class": session.get('class'),
