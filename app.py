@@ -300,6 +300,12 @@ def reset_password_new():
 
 
 #---------------Admin Views-----------------#
+import time
+
+@app.route("/timezone")
+def timezone():
+    return f"Server Timezone: {time.tzname}"
+
 @app.route('/admin/dashboard')
 @login_required('admin')
 def admin_dashboard():
