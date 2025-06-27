@@ -11,36 +11,36 @@
       <option value="subjects">Subject</option>
       <option value="schools">School</option>
       <option value="classes">Class</option>
-    </select><br><br>
+    </select><br>
 
     <label for="value">New Value: </label>
-    <input type="text" id="value" name="value" required><br><br>
+    <input type="text" id="value" name="value" required><br>
 
     <button type="submit">➕ Add</button>
   </form>
   <br>
   <hr>
   <br>
-  <h3>Subjects</h3><br>
+  <h3>Subjects</h3>
   <ul>
     {% for item in metadata.subjects %}
-      <li>{{ item }} <a href="/admin/delete-metadata/subjects/{{ item }}">🗑️</a></li>
+      <li>{{ item }} <a href="/admin/delete-metadata/subjects/{{ item }}">      🗑️</a></li>
     {% endfor %}
-  </ul><br><br>
+  </ul><br>
 
-  <h3>Schools</h3><br>
+  <h3>Schools</h3>
   <ul>
     {% for item in metadata.schools %}
       <li>{{ item }} <a href="/admin/delete-metadata/schools/{{ item }}">🗑️</a></li>
     {% endfor %}
-  </ul><br><br>
+  </ul><br>
 
-  <h3>Classes</h3><br>
+  <h3>Classes</h3>
   <ul>
     {% for item in metadata.classes %}
       <li>{{ item }} <a href="/admin/delete-metadata/classes/{{ item }}">🗑️</a></li>
     {% endfor %}
-  </ul><br><br>
+  </ul><br>
 
   <br>
   <form action="/admin/dashboard" method="get">

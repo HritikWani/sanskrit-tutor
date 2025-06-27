@@ -464,6 +464,8 @@ def update_marks():
 @app.route('/admin/manage-metadata', methods=['GET', 'POST'])
 @login_required('admin')
 def manage_metadata():
+    global metadata
+    metadata=db.metadata.find_one({"_id": "config"})
     if request.method == 'POST':
         field = request.form['field']
         value = request.form['value'].strip()
