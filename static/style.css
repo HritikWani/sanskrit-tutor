@@ -256,17 +256,18 @@ table a:hover {
 }
 
 .dashboard-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
+  display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   justify-items: center;
+  gap: 20px;
   padding: 10px;
   width: 100%;
-  box-sizing: border-box;
   max-width: 960px;
   margin: 0 auto;
+  box-sizing: border-box;
 }
+
 
 .dashboard-card {
   display: flex;
@@ -397,7 +398,7 @@ table a:hover {
   .main-content,
   .container {
     margin: 0 10px;
-    padding: 80px 24px 40px;
+    padding: 80px 20px 40px;
   }
 
   form input,
