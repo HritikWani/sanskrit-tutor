@@ -182,7 +182,7 @@ def signup():
             flash("Phone number must be 10 digits.")
             return redirect('/signup')
         
-        existing_user = users_col.find_one({"$or": [{"email": email}, {"contact": contact}]})
+        existing_user = users_col.find_one({"email": email}) or students_col.find_one({"contact": contact})
         if existing_user:
             flash("An account with this email or phone already exists.")
             return redirect('/signup')
@@ -400,7 +400,8 @@ def add_test():
 @login_required('admin')
 def delete_student(id):
     students_col.update_one({"_id": ObjectId(id)}, {"$set": {"category": "ex"}})
-    users_col.delete_one({"_id": ObjectId(id)})
+    user=students_col.find_one({"_id":ObjectId(id)})
+    users_col.delete_one({"student_id": user['student_id']})
     return redirect('/admin/students')
 
 @app.route('/admin/delete-test/<id>')
