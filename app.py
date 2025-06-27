@@ -239,7 +239,7 @@ def verify_otp():
                 "class": data['class'],
                 "school": data['school'],
                 "contact": data['contact'],
-                "status": "pending"  # or "approved" once admin verifies
+                "status": "pending",  # or "approved" once admin verifies
                 "category": "live"
             })
 
@@ -338,6 +338,12 @@ def reject_student(student_id):
 @login_required('admin')
 def view_students():
     students = list(students_col.find({"category":"live"}))
+    return render_template('admin/students.html', students=students)
+
+@app.route('/admin/ex-students')
+@login_required('admin')
+def view_ex_students():
+    students = list(students_col.find({"category":"ex"}))
     return render_template('admin/students.html', students=students)
 
 @app.route('/admin/add-schedule', methods=['GET', 'POST'])
