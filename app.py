@@ -391,7 +391,10 @@ def add_test():
         })
         flash("Test added successfully.")
         return redirect('/tests')
-    return render_template('admin/add_test.html')
+    return render_template('admin/add_test.html', 
+                           subjects=metadata.get("subjects", []),
+                           schools=metadata.get("schools", []),
+                           classes=metadata.get("classes", []))
 
 @app.route('/admin/delete-student/<id>')
 @login_required('admin')
