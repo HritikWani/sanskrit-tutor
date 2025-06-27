@@ -344,7 +344,7 @@ def view_students():
 @login_required('admin')
 def view_ex_students():
     students = list(students_col.find({"category":"ex"}))
-    return render_template('admin/students.html', students=students)
+    return render_template('admin/ex_students.html', students=students)
 
 @app.route('/admin/add-schedule', methods=['GET', 'POST'])
 @login_required('admin')
