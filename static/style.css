@@ -257,7 +257,7 @@ table a:hover {
 
 .dashboard-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 220px));
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
   gap: 20px;
   justify-content: center;
   justify-items: center;
@@ -280,7 +280,7 @@ table a:hover {
   color: inherit;
   transition: transform 0.2s, box-shadow 0.3s;
   width: 100%;
-  max-width: 180px;
+  max-width: 220px;
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.85);
 }
