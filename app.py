@@ -337,7 +337,11 @@ def reject_student(student_id):
 @app.route('/admin/students')
 @login_required('admin')
 def view_students():
-    students = list(students_col.find({"category":"live"},{"status":"approved"}))
+    students = list(students_col.find({
+        "category": "live",
+        "status": "approved"
+    }))
+
     return render_template('admin/students.html', students=students)
 
 @app.route('/admin/ex-students')
