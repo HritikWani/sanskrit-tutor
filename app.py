@@ -308,20 +308,22 @@ def pending_students():
     pending = list(students_col.find({"status": "pending"}))
     return render_template('admin/pending_students.html', students=pending)
 
-@app.route('/admin/approve-student/<student_id>')
+@app.route('/admin/approve-student/<student_id>', methods=["POST"])
 @login_required('admin')
 def approve_student(student_id):
     students_col.update_one({"student_id": student_id}, {"$set": {"status": "approved"}})
     flash("Student approved.")
     return redirect('/admin/pending-students')
 
-@app.route('/admin/reject-student/<student_id>')
+
+@app.route('/admin/reject-student/<student_id>', methods=["POST"])
 @login_required('admin')
 def reject_student(student_id):
     students_col.delete_one({"student_id": student_id})
     users_col.delete_one({"student_id": student_id})
     flash("Student rejected and removed.")
     return redirect('/admin/pending-students')
+
 
 @app.route('/admin/students')
 @login_required('admin')
