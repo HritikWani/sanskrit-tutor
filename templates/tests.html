@@ -29,8 +29,8 @@
           <th>Answer</th>
           <th>Marks</th>
         {% elif can_add %}
-          <th>Action</th>
           <th>View</th>
+          <th>Action</th>
         {% endif %}
       </tr>
     </thead>
@@ -76,13 +76,13 @@
 
         {% elif can_add %}
           <td>
-            <form method="get" action="/admin/delete-test/{{ t._id }}" onsubmit="return confirm('Delete this test?')" style="display:inline;">
-              <button type="submit">🗑️ Delete</button>
+            <form method="get" action="/admin/submitted-answers?test_id={{ t._id }}" style="display:inline;">
+              <button type="submit">📋 View Submissions</button>
             </form>
           </td>
           <td>
-            <form method="get" action="/admin/submitted-answers?test_id={{ t._id }}" style="display:inline;">
-              <button type="submit">📋 View Submissions</button>
+            <form method="get" action="/admin/delete-test/{{ t._id }}" onsubmit="return confirm('Delete this test?')" style="display:inline;">
+              <button type="submit">🗑️ Delete</button>
             </form>
           </td>
         {% endif %}

@@ -337,7 +337,7 @@ def reject_student(student_id):
 @app.route('/admin/students')
 @login_required('admin')
 def view_students():
-    students = list(students_col.find({"category":"live"}))
+    students = list(students_col.find({"category":"live"},{"status":"approved"}))
     return render_template('admin/students.html', students=students)
 
 @app.route('/admin/ex-students')
@@ -382,7 +382,7 @@ def add_test():
 
         tests_col.insert_one({
             "class": int(request.form['class']),
-            "school": request.form.get('subject'),
+            "school": request.form.get('school'),
             "subject": request.form.get('subject'),
             "test_date": datetime.strptime(test_date_str, '%Y-%m-%d'),
             "max_marks": int(request.form['max_marks']),
