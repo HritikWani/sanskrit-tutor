@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Manage Metadata{% endblock %}
+
+{% block content %}
+<div class="container">
+  <h2>Manage Metadata</h2>
+
+  <form method="POST">
+    <label for="field">Field:</label>
+    <select name="field" required>
+      <option value="subjects">Subject</option>
+      <option value="schools">School</option>
+      <option value="classes">Class</option>
+    </select><br><br>
+
+    <label for="value">New Value: </label>
+    <input type="text" id="value" name="value" required><br><br>
+
+    <button type="submit">➕ Add</button>
+  </form>
+  <br>
+  <hr>
+  <br>
+  <h3>Subjects</h3><br>
+  <ul>
+    {% for item in metadata.subjects %}
+      <li>{{ item }} <a href="/admin/delete-metadata/subjects/{{ item }}">🗑️</a></li>
+    {% endfor %}
+  </ul><br><br>
+
+  <h3>Schools</h3><br>
+  <ul>
+    {% for item in metadata.schools %}
+      <li>{{ item }} <a href="/admin/delete-metadata/schools/{{ item }}">🗑️</a></li>
+    {% endfor %}
+  </ul><br><br>
+
+  <h3>Classes</h3><br>
+  <ul>
+    {% for item in metadata.classes %}
+      <li>{{ item }} <a href="/admin/delete-metadata/classes/{{ item }}">🗑️</a></li>
+    {% endfor %}
+  </ul><br><br>
+
+  <br>
+  <form action="/admin/dashboard" method="get">
+      <button type="submit">⬅ Back to Dashboard</button>
+    </form>
+</div>
+{% endblock %}

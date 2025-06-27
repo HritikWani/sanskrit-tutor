@@ -8,13 +8,28 @@
 
     <form method="POST" action="/admin/add-schedule">
       <label for="class">Class: </label><br>
-      <input type="number" id="class" name="class" required><br><br>
+      <select name="class" required>
+        <option disabled selected>Select class</option>
+        {% for c in classes %}
+          <option value="{{ c }}">{{ c }}</option>
+        {% endfor %}
+      </select><br><br>
 
       <label for="school">School: </label><br>
-      <input type="text" id="school" name="school" required><br><br>
+      <select name="school" required>
+        <option disabled selected>Select school</option>
+        {% for s in schools %}
+          <option value="{{ s }}">{{ s }}</option>
+        {% endfor %}
+      </select><br><br>
 
       <label for="subject">Subject: </label><br>
-      <input type="text" id="subject" name="subject" required><br><br>
+      <select name="subject" required>
+        <option disabled selected>Select subject</option>
+        {% for subj in subjects %}
+          <option value="{{ subj }}">{{ subj }}</option>
+        {% endfor %}
+      </select><br><br>
 
       <label for="date">Date: </label><br>
       <input type="date" id="date" name="date" required><br><br>

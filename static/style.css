@@ -315,6 +315,7 @@ table a:hover {
 .dashboard-card.card-pink    { background-color: rgba(255, 192, 203, 0.25); }
 .dashboard-card.card-orange  { background-color: rgba(255, 200, 150, 0.25); }
 .dashboard-card.card-purple  { background-color: rgba(216, 191, 216, 0.25); }
+.dashboard-card.card-teal    { background-color: rgba(64, 224, 208, 0.25); }
 
 .dashboard-card form,
 .dashboard-card button {

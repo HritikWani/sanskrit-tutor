@@ -9,11 +9,21 @@
     <label for="name">Name:</label><br>
     <input name="name" required><br><br>
 
-    <label for="class">Class:</label><br>
-    <input name="class" type="number" required><br><br>
+    <label for="class">Class: </label><br>
+      <select name="class" required>
+        <option disabled selected>Select class</option>
+        {% for c in classes %}
+          <option value="{{ c }}">{{ c }}</option>
+        {% endfor %}
+      </select><br><br>
 
-    <label for="school">School:</label><br>
-    <input name="school" required><br><br>
+      <label for="school">School: </label><br>
+      <select name="school" required>
+        <option disabled selected>Select school</option>
+        {% for s in schools %}
+          <option value="{{ s }}">{{ s }}</option>
+        {% endfor %}
+      </select><br><br>
 
     <label for="contact">Contact:</label><br>
     <input name="contact" pattern="\d{10}" title="Phone number must be 10 digits" required><br><br>

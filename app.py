@@ -85,6 +85,8 @@ def is_strong_password(password):
         return False
     return True
 
+metadata=db.metadata.find_one({"_id": "config"})
+
 # ---------------Home------------------- #
 @app.route('/')
 def home():
@@ -208,7 +210,9 @@ def signup():
         session['pending_email'] = email
         flash("OTP sent to your email.")
         return redirect('/verify-otp')
-    return render_template('signup.html')
+    return render_template('signup.html',
+                           schools=metadata.get("schools", []),
+                           classes=metadata.get("classes", []))
 
 @app.route('/verify-otp', methods=['GET', 'POST'])
 def verify_otp():
@@ -345,7 +349,10 @@ def add_schedule():
             "schedule_time": request.form['schedule_time']
         })
         return redirect('/schedules')
-    return render_template('admin/add_schedule.html')
+    return render_template('admin/add_schedule.html',
+                           subjects=metadata.get("subjects", []),
+                           schools=metadata.get("schools", []),
+                           classes=metadata.get("classes", []))
 
 @app.route('/admin/add-test', methods=['GET', 'POST'])
 @login_required('admin')
@@ -362,7 +369,10 @@ def add_test():
             file = request.files.get('question_paper')
         except Exception:
             flash("Invalid or missing form fields.")
-            return redirect('/admin/add-test')
+            return redirect('/admin/add-test',
+                           subjects=metadata.get("subjects", []),
+                           schools=metadata.get("schools", []),
+                           classes=metadata.get("classes", []))
 
         filename = None
         if file and allowed_file(file.filename):
@@ -451,7 +461,39 @@ def update_marks():
     )
     return '', 204
 
+@app.route('/admin/manage-metadata', methods=['GET', 'POST'])
+@login_required('admin')
+def manage_metadata():
+    if request.method == 'POST':
+        field = request.form['field']
+        value = request.form['value'].strip()
 
+        if value:
+            if field in ['subjects', 'schools']:
+                db.metadata.update_one({"_id": "config"}, {"$addToSet": {field: value}})
+            elif field == 'classes':
+                try:
+                    value = int(value)
+                    db.metadata.update_one({"_id": "config"}, {"$addToSet": {field: value}})
+                except ValueError:
+                    flash("Class must be a number.")
+                    return redirect('/admin/manage-metadata')
+
+        return redirect('/admin/manage-metadata')
+
+    return render_template('admin/manage_metadata.html', metadata=metadata)
+
+@app.route('/admin/delete-metadata/<field>/<value>')
+@login_required('admin')
+def delete_metadata(field, value):
+    if field == 'classes':
+        try:
+            value = int(value)
+        except ValueError:
+            flash("Invalid class value.")
+            return redirect('/admin/manage-metadata')
+    db.metadata.update_one({"_id": "config"}, {"$pull": {field: value}})
+    return redirect('/admin/manage-metadata')
 
 
 #-----------------Student Views---------------#
