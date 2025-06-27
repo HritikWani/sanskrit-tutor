@@ -240,6 +240,7 @@ def verify_otp():
                 "school": data['school'],
                 "contact": data['contact'],
                 "status": "pending"  # or "approved" once admin verifies
+                "category": "live"
             })
 
             users_col.insert_one({
@@ -336,7 +337,7 @@ def reject_student(student_id):
 @app.route('/admin/students')
 @login_required('admin')
 def view_students():
-    students = list(students_col.find())
+    students = list(students_col.find({"category":"live"}))
     return render_template('admin/students.html', students=students)
 
 @app.route('/admin/add-schedule', methods=['GET', 'POST'])
@@ -389,7 +390,8 @@ def add_test():
 @app.route('/admin/delete-student/<id>')
 @login_required('admin')
 def delete_student(id):
-    students_col.delete_one({"_id": ObjectId(id)})
+    students_col.update_one({"_id": ObjectId(id)}, {"$set": {"category": "ex"}})
+    users_col.delete_one({"_id": ObjectId(id)})
     return redirect('/admin/students')
 
 @app.route('/admin/delete-test/<id>')
