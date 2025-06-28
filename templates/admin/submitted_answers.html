@@ -5,6 +5,54 @@
 <div class="container">
   <h2>Submitted Answers</h2>
 
+{% if performance_data %}
+    <canvas id="performanceChart"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+    const chartLabels = {{ performance_data | map(attribute='test_name') | list | default([]) | tojson }};
+    const chartScores = {{ performance_data | map(attribute='marks_obtained') | list | default([]) | tojson }};
+    const chartMaxMarks = {{ performance_data | map(attribute='max_marks') | list | default([]) | tojson }};
+
+        const chartData = {
+            labels: chartLabels,
+            datasets: [{
+                label: 'Marks Obtained',
+                data: chartScores,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.2
+            }, {
+                label: 'Max Marks',
+                data: chartMaxMarks,
+                borderColor: 'rgb(255, 99, 132)',
+                borderDash: [5, 5],
+                tension: 0.2
+            }]
+        };
+
+        const chartConfig = {
+            type: 'line',
+            data: chartData,
+            options: {
+                responsive: true,
+                plugins: {
+                    title: {
+                        display: true,
+                        text: 'Test Scores Over Time'
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        };
+
+        new Chart(document.getElementById('performanceChart'), chartConfig);
+    </script>
+{% endif %}
+
+
   {% if answers %}
   <div class="table-responsive">
     <table>
