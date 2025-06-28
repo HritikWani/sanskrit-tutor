@@ -457,8 +457,8 @@ def view_submitted_answers():
     ans_for_performance = list(
     answers_col.find({"student_id": student_id, "status": "graded"}).sort("upload_time", 1))
 
+    performance_data = []
     if student_id and ans_for_performance :
-        performance_data = []
         for ans in ans_for_performance:
             test = tests_col.find_one({'_id': ans['test_id']})
             performance_data.append({
@@ -664,9 +664,9 @@ def view_tests():
             student_id=session.get('student_id')
             ans_for_performance = list(
             answers_col.find({"student_id": student_id, "status": "graded"}).sort("upload_time", 1))
-
+            
+            performance_data = []
             if student_id and ans_for_performance :
-                performance_data = []
                 for ans in ans_for_performance:
                     test = tests_col.find_one({'_id': ans['test_id']})
                     performance_data.append({
