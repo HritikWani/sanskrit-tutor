@@ -455,20 +455,21 @@ def view_submitted_answers():
     }
 
     ans_for_performance = list(
-    answers_col.find({"student_id": student_id, "status": "graded"}).sort("upload_time", 1))
+        answers_col.find({"student_id": student_id, "status": "graded"}).sort("upload_time", 1)
+    )
 
     performance_data = []
-    if student_id and ans_for_performance :
+    if student_id and ans_for_performance:
         for ans in ans_for_performance:
             test = tests_col.find_one({'_id': ans['test_id']})
-            performance_data.append({
-                'test_name': test['description'],
-                'date': test['test_date'],  # Assume it's stored as datetime
-                'marks_obtained': ans.get('marks_obtained', 0),
-                'max_marks': test['max_marks']
-            })
+            if test and 'max_marks' in test and test['max_marks'] > 0:
+                percentage = (ans.get('marks_obtained', 0) / test['max_marks']) * 100
+                performance_data.append({
+                    'test_name': test.get('description', 'Unnamed Test'),
+                    'date': test['test_date'],
+                    'percentage': round(percentage, 2)
+                })
 
-        # Sort chronologically
         performance_data.sort(key=lambda x: x['date'])
 
     return render_template('admin/submitted_answers.html', answers=answers, students=students, tests=tests, performance_data=performance_data)
@@ -661,22 +662,23 @@ def view_tests():
             }
             can_add = False
 
-            student_id=session.get('student_id')
+            student_id = session.get('student_id')
             ans_for_performance = list(
-            answers_col.find({"student_id": student_id, "status": "graded"}).sort("upload_time", 1))
-            
+                answers_col.find({"student_id": student_id, "status": "graded"}).sort("upload_time", 1)
+            )
+
             performance_data = []
-            if student_id and ans_for_performance :
+            if student_id and ans_for_performance:
                 for ans in ans_for_performance:
                     test = tests_col.find_one({'_id': ans['test_id']})
-                    performance_data.append({
-                        'test_name': test['description'],
-                        'date': test['test_date'],  # Assume it's stored as datetime
-                        'marks_obtained': ans.get('marks_obtained', 0),
-                        'max_marks': test['max_marks']
-                    })
+                    if test and 'max_marks' in test and test['max_marks'] > 0:
+                        percentage = (ans.get('marks_obtained', 0) / test['max_marks']) * 100
+                        performance_data.append({
+                            'test_name': test.get('description', 'Unnamed Test'),
+                            'date': test['test_date'],
+                            'percentage': round(percentage, 2)
+                        })
 
-                # Sort chronologically
                 performance_data.sort(key=lambda x: x['date'])
             return render_template('tests.html', tests=tests, uploaded_answers=uploaded, can_add=can_add, performance_data=performance_data)
     except Exception as e:
