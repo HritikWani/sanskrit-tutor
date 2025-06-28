@@ -432,12 +432,13 @@ def view_submitted_answers():
     if student_id:
         query['student_id'] = student_id
 
+    print("Query to answers_col:", query)
 
     answers = list(answers_col.find(query).sort("upload_time", -1))
 
     if not answers:
         flash("No submitted answers found.")
-        return render_template('admin/submitted_answers.html', answers=[], students={}, tests={})
+        return render_template('admin/submitted_answers.html', answers=[], students={}, tests={}, performance_data=[])
 
     # Get unique student_ids and test_ids from the results
     student_ids = list(set(a['student_id'] for a in answers))
@@ -454,12 +455,15 @@ def view_submitted_answers():
         for t in tests_col.find({"_id": {"$in": test_ids}})
     }
 
-    ans_for_performance = list(
-        answers_col.find({"student_id": student_id, "status": "graded"}).sort("upload_time", 1)
-    )
-
     performance_data = []
-    if student_id and ans_for_performance:
+
+    # ⛔ Skip performance graph if filtering by test only
+    if not test_id and student_id:
+        performance_query = {"student_id": student_id, "status": "graded"}
+        ans_for_performance = list(
+            answers_col.find(performance_query).sort("upload_time", 1)
+        )
+
         for ans in ans_for_performance:
             test = tests_col.find_one({'_id': ans['test_id']})
             if test and 'max_marks' in test and test['max_marks'] > 0:
@@ -471,6 +475,7 @@ def view_submitted_answers():
                 })
 
         performance_data.sort(key=lambda x: x['date'])
+
 
     return render_template('admin/submitted_answers.html', answers=answers, students=students, tests=tests, performance_data=performance_data)
 

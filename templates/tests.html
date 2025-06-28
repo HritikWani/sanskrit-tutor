@@ -4,7 +4,7 @@
 {% block content %}
 <div class="container">
   <h2>
-    {% if session['role'] == 'admin' %}All Tests{% else %}Today's Test{% endif %}
+    {% if can_add %}All Tests{% else %}Today's Test{% endif %}
   </h2>
 
   {% if can_add %}
@@ -74,7 +74,7 @@
         <th>Date</th>
         <th>Description</th>
         <th>Question Paper</th>
-        {% if session['role'] == 'student' %}
+        {% if not can_add %}
           <th>Answer</th>
           <th>Marks</th>
         {% elif can_add %}
@@ -125,9 +125,10 @@
 
         {% elif can_add %}
           <td>
-            <form method="get" action="/admin/submitted-answers?test_id={{ t._id }}" style="display:inline;">
-              <button type="submit">📋 View Submissions</button>
-            </form>
+            <form method="get" action="/admin/submitted-answers" style="display:inline;">
+                <input type="hidden" name="test_id" value="{{ t._id }}">
+                <button type="submit">📋 View submissions</button>
+              </form>
           </td>
           <td>
             <form method="get" action="/admin/delete-test/{{ t._id }}" onsubmit="return confirm('Delete this test?')" style="display:inline;">
