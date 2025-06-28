@@ -428,7 +428,7 @@ def view_submitted_answers():
 
     query = {}
     if test_id:
-        query['_id'] = ObjectId(test_id)
+        query['test_id'] = ObjectId(test_id)
     if student_id:
         query['student_id'] = student_id
 
