@@ -631,8 +631,8 @@ def view_tests():
             tests = list(tests_col.find({
                 "class": session.get('class'),
                 "school": session.get('school'),
-                "test_date": {"$gte": start, "$lte": end}
-            }))
+                "test_date": {"$lte": end}
+            }).sort("test_date",-1))
 
             uploaded = {
                 str(a['test_id']): a
