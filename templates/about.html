@@ -31,4 +31,20 @@
     <p>Our mission is to preserve the Sanskrit language and pass its knowledge on to future generations.</p>
   {% endif %}
 </div>
+<script>
+  function toggleLangDropdown() {
+    const options = document.getElementById("langOptions");
+    options.style.display = options.style.display === "block" ? "none" : "block";
+  }
+
+  // Optional: Close the dropdown if clicked outside
+  document.addEventListener("click", function(event) {
+    const toggle = document.querySelector(".lang-toggle");
+    const dropdown = document.getElementById("langOptions");
+    if (!toggle.contains(event.target)) {
+      dropdown.style.display = "none";
+    }
+  });
+</script>
+
 {% endblock %}
