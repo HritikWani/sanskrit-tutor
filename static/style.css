@@ -95,7 +95,7 @@ h1, h2, h3 {
 
 /* ---------- MAIN CONTENT ---------- */
 .main-content {
-  padding: 80px 15px 30px;
+  padding: 100px 15px 30px;
   max-width: 1080px;
   margin: auto;
   background-color: rgba(255, 255, 255, 0.96);
@@ -490,10 +490,9 @@ table a:hover {
     overflow-wrap: anywhere;
   }
 
-  .main-content,
-  .container {
+  .main-content{
     margin: 0 10px;
-    padding: 80px 20px 40px;
+    padding: 120px 20px 40px;
   }
 
   form input,

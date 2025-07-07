@@ -5,6 +5,25 @@
 <div>
   <h2 class="dashboard-title">Welcome, {{ session['name'] }}</h2>
 
+    <!-- Unified Notice Board -->
+  <div style="margin-top: 40px;">
+    <h3>Notice Board</h3>
+    {% if notices %}
+      <ul style="padding-left: 20px; list-style-type: disc;">
+        {% for notice in notices %}
+          <hr><li style="margin-bottom: 12px;">
+            <strong>{{ notice.title }}</strong>: {{ notice.message }}
+          </li><br>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No current notices.</p>
+    {% endif %}
+  </div>
+<br>
+<hr style="height: 4px; background-color: #333; border: none;">
+<br>
+
   <div class="dashboard-grid">
 
     <form method="get" action="/student/profile" class="dashboard-card card-blue">
@@ -34,22 +53,6 @@
     <form method="get" action="/logout">
       <button><i class="fas fa-sign-out-alt"></i> Logout</button>
     </form>
-  </div>
-
-  <!-- Unified Notice Board -->
-  <div style="margin-top: 40px;">
-    <h3>Notice Board</h3>
-    {% if notices %}
-      <ul style="padding-left: 20px; list-style-type: disc;">
-        {% for notice in notices %}
-          <li style="margin-bottom: 12px;">
-            <strong>{{ notice.title }}</strong>: {{ notice.message }}
-          </li>
-        {% endfor %}
-      </ul>
-    {% else %}
-      <p>No current notices.</p>
-    {% endif %}
   </div>
 </div>
 {% endblock %}
