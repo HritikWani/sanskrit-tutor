@@ -44,7 +44,7 @@ students_col = db['students']
 tests_col = db['tests']
 schedules_col = db['schedules']
 answers_col = db['answers']
-
+notices_col=db['notices']
 
 # Helpers and Decorators
 def login_required(role):
@@ -303,6 +303,12 @@ def reset_password_new():
         return redirect('/login')
     return render_template('set_new_password.html')
 
+#--------------About Us------------------#
+@app.route('/about')
+def about():
+    lang = request.args.get('lang', 'en')  # Default to English
+    return render_template('about.html', lang=lang)
+
 
 #---------------Admin Views-----------------#
 @app.route('/admin/dashboard')
@@ -400,6 +406,31 @@ def add_test():
                            schools=metadata.get("schools", []),
                            classes=metadata.get("classes", []))
 
+
+@app.route('/admin/add_notice', methods=['GET', 'POST'])
+@login_required('admin')
+def add_notice():
+    if request.method == 'POST':
+        title = request.form['title']
+        message = request.form['message']
+        school = request.form['school']
+        class_ = request.form['class']
+
+        if not title or not message:
+            flash("Title and message required.","error")
+        else:
+            notices_col.insert_one({
+                'title': title,
+                'message': message,
+                'school': school,
+                'class': class_,
+                'posted_at': datetime.utcnow()
+            })
+            flash("Notice added successfully.")
+            return redirect('/admin/view_notices')
+    return render_template('add_notice.html', schools=metadata.get('schools', []), classes=metadata.get('classes', []))
+
+
 @app.route('/admin/delete-student/<id>')
 @login_required('admin')
 def delete_student(id):
@@ -419,6 +450,13 @@ def delete_test(id):
 def delete_schedule(id):
     schedules_col.delete_one({"_id": ObjectId(id)})
     return redirect('/schedules')
+
+@app.route('/admin/delete_notice/<notice_id>', methods=['POST'])
+@login_required('admin')
+def delete_notice(notice_id):
+    notices_col.delete_one({'_id': ObjectId(notice_id)})
+    flash('Notice deleted successfully.')
+    return redirect('/view_notices')
 
 @app.route('/admin/submitted-answers')
 @login_required('admin')
@@ -534,8 +572,8 @@ def delete_metadata(field, value):
 @app.route('/student/dashboard')
 @login_required('student')
 def student_dashboard():
-    _, start, end=get_ist_today_range()
-    
+    _, start, end = get_ist_today_range()
+
     # Fetch all tests scheduled for today for this student
     tests_today = list(tests_col.find({
         "class": session.get('class'),
@@ -557,7 +595,25 @@ def student_dashboard():
         for t in tests_today
     )
 
-    return render_template('student/dashboard.html', pending_upload=pending_upload)
+    # Fetch relevant notices (class/school-specific or global)
+    notices = list(notices_col.find({
+        "$or": [
+            {"school": session.get('school'), "class": session.get('class')},
+            {"school": session.get('school'), "class": "All"},
+            {"school": "All", "class": "All"}
+        ]
+    }).sort("posted_at", -1))
+
+    # Insert pending test upload notice (if any) at the top
+    if pending_upload:
+        notices.insert(0, {
+            "title": "⚠️ Pending Test Upload",
+            "message": "You have a test today. Answer not uploaded yet.",
+            "posted_at": datetime.utcnow()
+        })
+
+    return render_template("student/dashboard.html", notices=notices)
+
 
 @app.route('/student/profile')
 @login_required('student')
@@ -690,6 +746,19 @@ def view_tests():
         print("Error in /tests:", e)
         return "Internal Server Error", 500
 
+@app.route('/view_notices')
+@login_required_any('admin','student')
+def view_notices():
+    if session['role'] == 'admin':
+        notices = list(db.notices.find().sort('posted_at', -1))
+    else:
+        student = db.students.find_one({"email": session['email']})
+        notices = list(db.notices.find({
+            'school': student['school'],
+            'class': student['class']
+        }).sort('posted_at', -1))
+
+    return render_template('view_notices.html', notices=notices, user_role=session['role'])
 
 
 if __name__ == '__main__':

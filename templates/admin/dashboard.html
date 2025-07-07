@@ -2,7 +2,7 @@
 {% block title %}Admin Dashboard{% endblock %}
 
 {% block content %}
-<div class="container">
+<div>
   <h1 class="dashboard-title">Welcome, Admin</h1>
 
   <div class="dashboard-grid">
@@ -48,6 +48,21 @@
       </button>
     </form>
     
+    <!-- Add Notice Card -->
+    <form method="get" action="/admin/add_notice" class="dashboard-card card-yellow">
+      <button type="submit">
+        <i class="fas fa-plus dashboard-icon"></i>
+        <div>Add Notice</div>
+      </button>
+    </form>
+
+    <!-- View Notices Card -->
+    <form method="get" action="/view_notices" class="dashboard-card card-orange">
+      <button type="submit">
+        <i class="fas fa-bullhorn dashboard-icon"></i>
+        <div>View Notices</div>
+      </button>
+    </form>
     
     <form action="/admin/manage-metadata" method="get" class="dashboard-card card-yellow">
       <button type="submit">
@@ -69,5 +84,5 @@
       <button type="submit"><i class="fas fa-sign-out-alt"></i> Logout</button>
     </form>
   </div>
-</div>
+  </div>
 {% endblock %}

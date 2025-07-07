@@ -2,7 +2,7 @@
 {% block title %}Student Dashboard{% endblock %}
 
 {% block content %}
-<div class="container">
+<div>
   <h2 class="dashboard-title">Welcome, {{ session['name'] }}</h2>
 
   <div class="dashboard-grid">
@@ -36,14 +36,20 @@
     </form>
   </div>
 
-  {% if pending_upload %}
-    <div class="dashboard-alert alert-pending">
-      <i class="fas fa-exclamation-circle"></i> You have a test today. Answer not uploaded yet.
-    </div>
-  {% else %}
-    <div class="dashboard-alert alert-success">
-      <i class="fas fa-check-circle"></i> No pending test uploads today.
-    </div>
-  {% endif %}
+  <!-- Unified Notice Board -->
+  <div style="margin-top: 40px;">
+    <h3>Notice Board</h3>
+    {% if notices %}
+      <ul style="padding-left: 20px; list-style-type: disc;">
+        {% for notice in notices %}
+          <li style="margin-bottom: 12px;">
+            <strong>{{ notice.title }}</strong>: {{ notice.message }}
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>No current notices.</p>
+    {% endif %}
+  </div>
 </div>
 {% endblock %}

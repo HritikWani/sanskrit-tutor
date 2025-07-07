@@ -1,4 +1,3 @@
-<!-- templates/base.html -->
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,44 +16,69 @@
     </div>
 
     {% if request.endpoint != 'login' and session.get('name') %}
-    <div class="right-section" title="{{ session['name'] }}">
-      <span class="username-label">{{ session['name'] }}</span>
-    </div>
+      <div class="right-section" title="{{ session['name'] }}">
+        <span class="username-label">{{ session['name'] }}</span>
+      </div>
+    {% else %}
+      <!-- Desktop Nav -->
+      <div class="nav-links desktop-only">
+        <a href="{{ url_for('about') }}">About Us</a>
+        <a href="{{ url_for('login') }}">Login</a>
+      </div>
 
+      <!-- Hamburger for Mobile -->
+      <div class="hamburger mobile-only" onclick="openDrawer()">☰</div>
     {% endif %}
-
   </div>
 
-  <div class="main-content">
-        {% with messages = get_flashed_messages() %}
-            {% if messages %}
-                <ul class="flashes">
-                    {% for message in messages %}
-                        <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
-        {% endwith %}
-
-        {% block content %}{% endblock %}
+  <!-- Mobile Drawer -->
+  <div class="mobile-drawer" id="drawer">
+    <div class="drawer-header">
+      <span class="drawer-title">Menu</span>
+      <span class="drawer-close" onclick="closeDrawer()">✕</span>
     </div>
-    <script>
-      let lastScrollTop = 0;
-      const header = document.querySelector('.page-header');
+    <div class="drawer-links">
+      <a href="{{ url_for('about') }}">About Us</a>
+      <a href="{{ url_for('login') }}">Login</a>
+    </div>
+  </div>
+  <div id="drawerOverlay" class="drawer-overlay" onclick="closeDrawer()"></div>
 
-      window.addEventListener('scroll', () => {
-        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+  <div class="main-content">
+    {% with messages = get_flashed_messages() %}
+      {% if messages %}
+        <ul class="flashes">
+          {% for message in messages %}
+            <li>{{ message }}</li>
+          {% endfor %}
+        </ul>
+      {% endif %}
+    {% endwith %}
 
-        if (scrollTop > lastScrollTop) {
-          // Scrolling down — hide header
-          header.style.transform = 'translateY(-100%)';
-        } else {
-          // Scrolling up — show header
-          header.style.transform = 'translateY(0)';
-        }
+    {% block content %}{% endblock %}
+  </div>
 
-        lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-      });
-    </script>
+  <script>
+    // Header scroll hide/reveal
+    let lastScrollTop = 0;
+    const header = document.querySelector('.page-header');
+
+    window.addEventListener('scroll', () => {
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+      header.style.transform = scrollTop > lastScrollTop ? 'translateY(-100%)' : 'translateY(0)';
+      lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+    });
+
+    // Drawer toggle
+    function openDrawer() {
+      document.getElementById('drawer').style.right = '0';
+      document.getElementById('drawerOverlay').style.display = 'block';
+    }
+
+    function closeDrawer() {
+      document.getElementById('drawer').style.right = '-260px';
+      document.getElementById('drawerOverlay').style.display = 'none';
+    }
+  </script>
 </body>
 </html>

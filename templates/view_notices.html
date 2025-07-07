@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Notices{% endblock %}
+
+{% block content %}
+<div>
+  <h2>Notice Board</h2>
+
+  {% if user_role == 'admin' %}
+    <div style="text-align: right; margin-bottom: 20px;">
+      <a href="/admin/add_notice" class="link-button">➕ Add Notice</a>
+    </div>
+  {% endif %}
+
+  {% if notices %}
+    <div class="table-responsive">
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Message</th>
+            {% if user_role == 'admin' %}
+                <th>School</th>
+                <th>Class</th>
+                <th>Posted At</th>
+              <th>Actions</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for notice in notices %}
+            <tr>
+              <td>{{ notice.title }}</td>
+              <td>{{ notice.message }}</td>
+              {% if user_role == 'admin' %}
+                <td>{{ notice.school }}</td>
+                <td>{{ notice.class }}</td>
+                <td>{{ notice.posted_at.strftime('%d-%m-%Y %H:%M') if notice.posted_at }}</td>  
+                <td>
+                  <form method="POST" action="{{ url_for('delete_notice', notice_id=notice._id) }}" onsubmit="return confirm('Are you sure?')">
+                    <button class="link-button" type="submit">🗑️ Delete</button>
+                  </form>
+                </td>
+              {% endif %}
+            </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  {% else %}
+    <p>No notices found.</p>
+  {% endif %}
+</div>
+{% endblock %}
+
