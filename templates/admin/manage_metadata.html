@@ -22,25 +22,25 @@
   <hr>
   <br>
   <h3>Subjects</h3>
-  <ul>
+  <table>
     {% for item in metadata.subjects %}
-      <li>{{ item }} <a href="/admin/delete-metadata/subjects/{{ item }}">      🗑️</a></li>
+      <tr><td>{{ item }}</td><td><a href="/admin/delete-metadata/subjects/{{ item }}">🗑️ Delete</a></td></tr>
     {% endfor %}
-  </ul><br>
+  </table><br>
 
   <h3>Schools</h3>
-  <ul>
+  <table>
     {% for item in metadata.schools %}
-      <li>{{ item }} <a href="/admin/delete-metadata/schools/{{ item }}">🗑️</a></li>
+      <tr><td>{{ item }}</td><td><a href="/admin/delete-metadata/schools/{{ item }}">🗑️ Delete</a></td></tr>
     {% endfor %}
-  </ul><br>
+  </table><br>
 
   <h3>Classes</h3>
-  <ul>
+  <table>
     {% for item in metadata.classes %}
-      <li>{{ item }} <a href="/admin/delete-metadata/classes/{{ item }}">🗑️</a></li>
+      <tr><td>{{ item }}</td><td><a href="/admin/delete-metadata/classes/{{ item }}">🗑️ Delete</a></td></tr>
     {% endfor %}
-  </ul><br>
+  </table><br>
 
   <br>
   <form action="/admin/dashboard" method="get">

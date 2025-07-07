@@ -428,7 +428,7 @@ def add_notice():
             })
             flash("Notice added successfully.")
             return redirect('/admin/view_notices')
-    return render_template('add_notice.html', schools=metadata.get('schools', []), classes=metadata.get('classes', []))
+    return render_template('admin/add_notice.html', schools=metadata.get('schools', []), classes=metadata.get('classes', []))
 
 
 @app.route('/admin/delete-student/<id>')
