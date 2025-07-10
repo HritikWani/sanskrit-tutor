@@ -1,4 +1,4 @@
-Key Features:
+----------------------------Key Features--------------------------------
 
   🔐 OTP-based signup, email/phone validation, and secure login
   
@@ -16,7 +16,7 @@ Key Features:
   
   📱 Mobile-responsive UI with modern design
 
-Tech Stack:
+---------------------------Tech Stack--------------------------------
 
   Frontend: HTML, CSS, Bootstrap, JS
   
